@@ -3,12 +3,12 @@
 #define PILHA_HPP
 
 /**
- * @brief  		{ Implementação de uma estrutura de Pilha em C++ }
+ * @brief  		Implementação de uma estrutura de Pilha em C++
  *
- * @tparam  	T		{ Ponteiro para o início da Pilha }
+ * @tparam  	T			Ponteiro para o início da Pilha
  *
- * @param  		top			{ Armazena o topo da Pilha }
- * @param  		tamanho		{ Armazena o tamanho da Pilha }
+ * @param  		top			Armazena o topo da Pilha
+ * @param  		tamanho		Armazena o tamanho da Pilha
  */
 template<typename T>
 class Pilha {
@@ -20,22 +20,27 @@ class Pilha {
 
  public:
 	/**
-	 * @brief  		{ Construtor da Classe Pilha}
+	 * @brief  		Construtor da Classe Pilha
 	 *
-	 * @param  		t		{ Valor para o tamanho da pilha }
+ 	 * @details  	Valor do tamanho definido em uma constante como 100
 	 */
 	Pilha() {
 		top = -1;
 		m_dados = new T[MAXPILHA];
 		tamanho = MAXPILHA;
 	}
+	/**
+	 * @brief  		Construtor da Classe Pilha
+	 *
+	 * @param  		t		Valor para o tamanho da pilha
+	 */
 	explicit Pilha<T>(int t) {
 		top = -1;
 		m_dados = new T[t];
 		tamanho = t;
 	}
 	/**
-	 * @brief  		{ Retorna o valor armazenado no topo da pilha }
+	 * @brief  		Retorna o valor armazenado no topo da pilha
 	 */
 	T topo() {
 		if (PilhaVazia()) {
@@ -45,7 +50,7 @@ class Pilha {
 		}
 	}
 	/**
-	 * @brief      { Retorna a posição do topo }
+	 * @brief      Retorna a posição do topo
 	 */
 	int getPosTopo() {
 		if (PilhaVazia()) {
@@ -55,15 +60,15 @@ class Pilha {
 		}
 	}
 	/**
-	 * @brief      { Limpa a pilha }
+	 * @brief      Limpa a pilha
 	 */
 	void limparPilha() {
 		top = -1;
 	}
 	/**
-	 * @brief      { Checa se a pilha está vazia }
+	 * @brief      Checa se a pilha está vazia
 	 *
-	 * @return     { Retorna true caso a pilha esteja vazia }
+	 * @return     Retorna true caso a pilha esteja vazia
 	 */
 	bool PilhaVazia() {
 		if (top == -1) {
@@ -73,9 +78,9 @@ class Pilha {
 		}
 	}
 	/**
-	 * @brief      { Checa se a pilha está cheia }
+	 * @brief      Checa se a pilha está cheia
 	 *
-	 * @return     { Retorna true caso a pilha esteja cheia }
+	 * @return     Retorna true caso a pilha esteja cheia
 	 */
 	bool PilhaCheia() {
 		if (top == tamanho-1) {
@@ -85,9 +90,9 @@ class Pilha {
 		}
 	}
 	/**
-	 * @brief      { Adiciona um dado a pilha }
+	 * @brief      Adiciona um dado a pilha
 	 *
-	 * @param  		dado  { Dado genérico, podendo ser um inteiro, float... }
+	 * @param  		dado  Dado genérico, podendo ser um inteiro, float...
 	 */
 	void empilha(T dado) {
 		if (PilhaCheia()) {
@@ -98,7 +103,7 @@ class Pilha {
 		}
 	}
 	/**
-	 * @brief      { Retira o último valor colocado na pilha }
+	 * @brief      Retira o último valor colocado na pilha
 	 */
 	T desempilha() {
 		if (PilhaVazia()) {

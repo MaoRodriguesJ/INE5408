@@ -3,12 +3,12 @@
 #define FILA_HPP
 
 /**
- * @brief  		{ Implementação de uma estrutura de Fila em C++ }
+ * @brief  		Implementação de uma estrutura de Fila em C++
  *
- * @tparam  	T		{ Ponteiro para o início da Fila }
+ * @tparam  	T			Ponteiro para o início da Fila
  *
- * @param  		fim			{ Armazena o fim da FIla}
- * @param  		tamanho		{ Armazena o tamanho da Fila }
+ * @param  		fim			Armazena o fim da FIla
+ * @param  		tamanho		Armazena o tamanho da Fila
  */
 template <typename T>
 class Fila {
@@ -19,25 +19,30 @@ class Fila {
 	int tamanho;
 
  public:
-	/**
-	 * @brief  		{ Construtor da classe Fila }
-	 *
-	 * @param  		tam		{ Valor para o tamanho da fila }
+ 	/**
+	 * @brief  		Construtor da classe Fila
+ 	 *
+ 	 * @details  	Valor do tamanho definido em uma constante como 100
 	 */
 	Fila() {
 		fim = -1;
 		m_dados = new T[MAXFILA];
 		tamanho = MAXFILA;
 	}
+	/**
+	 * @brief  		Construtor da classe Fila
+	 *
+	 * @param  		tam		Valor para o tamanho da fila
+	 */
 	explicit Fila<T>(int tam) {
 		fim = -1;
 		m_dados = new T[tam];
 		tamanho = tam;
 	}
 	/**
-	 * @brief  		{ Adiciona um dado a fila }
+	 * @brief  		Adiciona um dado a fila
 	 *
-	 * @param  		dado  { Dado genérico, podendo ser um inteiro, float... }
+	 * @param  		dado  Dado genérico, podendo ser um inteiro, float...
 	 */
 	void inclui(T dado) {
 		if (filaCheia()) {
@@ -48,11 +53,11 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief  		{ Retira o primeiro valor adicionado a fila }
+	 * @brief  		Retira o primeiro valor adicionado a fila
 	 *
-	 * @details  	{ Retira por ordem de itens colocados na fila, primeiro a
+	 * @details  	Retira por ordem de itens colocados na fila, primeiro a
 	 * 				ser colocado é o primeiro a sair. A fila é reorganizada para
-	 * 				o início do espaço armazenado. }
+	 * 				o início do espaço armazenado.
 	 */
 	T retira() {
 		if (filaVazia()) {
@@ -67,7 +72,7 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief      { Retira o último valor adicionado a fila }
+	 * @brief      Retira o último valor adicionado a fila
 	 */
 	T ultimo() {
 		if (filaVazia()) {
@@ -77,7 +82,7 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief      { Retorna a posição do último valor }
+	 * @brief      Retorna a posição do último valor
 	 */
 	int getUltimo() {
 		if (filaVazia()) {
@@ -87,9 +92,9 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief      { Checa se a fila está cheia }
+	 * @brief      Checa se a fila está cheia
 	 *
-	 * @return     { Retorna true caso a fila esteja cheia }
+	 * @return     Retorna true caso a fila esteja cheia
 	 */
 	bool filaCheia() {
 		if (fim == tamanho-1) {
@@ -99,9 +104,9 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief      { Checa se a fila está vazia }
+	 * @brief      Checa se a fila está vazia }
 	 *
-	 * @return     { Retorna true caso a fila esteja vazia }
+	 * @return     Retorna true caso a fila esteja vazia
 	 */
 	bool filaVazia() {
 		if (fim == -1) {
@@ -111,7 +116,7 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief      { Inicializa a fila }
+	 * @brief      Inicializa a fila
 	 */
 	void inicializaFila() {
 		fim = -1;
