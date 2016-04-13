@@ -57,7 +57,7 @@ class Lista {
 	}
 	/**
 	 * @brief  		Adiciona um dado na posição desejada da lista
-	 *
+	 *yaourt
 	 * @param  		dado  Dado genérico, podendo ser um inteiro, float...
 	 * @param 		posicao  Inteiro para posição desejada
 	 */

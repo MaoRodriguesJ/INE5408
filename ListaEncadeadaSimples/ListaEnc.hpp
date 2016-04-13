@@ -59,13 +59,13 @@ class ListaEnc {
 	void adicionaNaPosicao(const T& dado, int pos) {
 		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
 		Elemento<T> *anterior;
-		if(pos > size + 1) {
+		if(pos > size + 1 || pos < 1) {
 			throw "Posição inválida";
 		} else {
 			if(novo == nullptr) {
 				throw "Lista Cheia";
 			} else {
-				if(pos == 0) {
+				if(pos == 1) {
 					adicionaNoInicio(dado);
 				} else {
 					anterior = head;
@@ -74,39 +74,43 @@ class ListaEnc {
 					}
 					novo->setProximo(anterior->getProximo());
 					anterior->setProximo(novo);
-					anterior = anterior->getProximo();
 					++size;
 				}
 			}
 		}
 	}
 	int posicao(const T& dado) const {
-		int i = 0;
+		if(listaVazia()) {
+			throw "Lista Vazia";
+		}
+		int i = 1;
 		Elemento<T> *proximo;
 		proximo = head;
-		while(i <= size && !(igual(dado, proximo->getInfo()))) {
-			i++;
-			proximo = proximo->getProximo();
-		}
-		if(i > size) {
-			throw "Este dado não existe";
-		} else {
-			return i;
-		}
-	}
-	T* posicaoMem(const T& dado) const {
-		int i = 0;
-		Elemento<T> *proximo;
-		proximo = head;
-		while(i <= size && !(igual(dado, proximo->getInfo()))) {
+		while(i < size) {
+			if (igual(dado, proximo->getInfo())) {
+				return i;
+			}
 			++i;
 			proximo = proximo->getProximo();
 		}
-		if(i > size) {
-			throw "Este dado não existe";
-		} else {
-			return proximo;
+
+		throw "Este dado não existe";
+	}
+	T* posicaoMem(const T& dado) const {
+		if(listaVazia()) {
+			throw "Lista Vazia";
 		}
+		int i = 1;
+		Elemento<T> *proximo;
+		proximo = head;
+		while(i <= size) {
+			if(igual(dado, proximo->getInfo())) {
+				return proximo;
+			}
+			++i;
+			proximo = proximo->getProximo();
+		}
+		throw "Este dado não existe";
 	}
 	bool contem(const T& dado) {
 		if(listaVazia()) {
@@ -125,7 +129,7 @@ class ListaEnc {
 	T retiraDaPosicao(int pos) {
 		Elemento<T> *anterior, *eliminar;
 		T volta;
-		if(pos > size) {
+		if(pos > size || pos < 1) {
 			throw "Posição Inválida";
 		}
 		if(listaVazia()) {
@@ -142,7 +146,7 @@ class ListaEnc {
 				volta = eliminar->getInfo();
 				anterior = eliminar->getProximo();
 				delete eliminar;
-				size--;
+				--size;
 				return  volta;
 			}
 		}
@@ -196,12 +200,10 @@ class ListaEnc {
 		return dado1 < dado2;
 	}
 	void destroiLista() {
-		Elemento<T> *atual, *anterior;
-		atual = head;
-		while(atual != nullptr) {
-			anterior = atual;
+		Elemento<T> *atual = head;
+		while (atual != nullptr) {
 			atual = atual->getProximo();
-			delete anterior;
+			eliminaDoInicio();
 		}
 		size = 0;
 	}
