@@ -85,7 +85,18 @@ class ListaEnc {
 		}
 	}
 	int posicao(const T& dado) const {
-
+		int i = 0;
+		Elemento<T> *proximo;
+		proximo = head;
+		while(i <= size && !(igual(dado->getInfo(), proximo->getInfo())) {
+			i++;
+			proximo = proximo->getProximo();
+		}
+		if(i > size) {
+			throw "Este dado não existe";
+		} else {
+			return i;
+		}
 	}
 	T* posicaoMem(const T& dado) const {
 
@@ -98,6 +109,8 @@ class ListaEnc {
 		T volta;
 		if(pos > size) {
 			throw "Posição Inválida";
+		else if(listaVazia()) {
+			throw "Lista Vazia";
 		} else {
 			if(pos == 1) {
 				return retiraDoInicio();
