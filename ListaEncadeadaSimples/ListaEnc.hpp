@@ -20,13 +20,8 @@ class ListaEnc {
 ////////////////////////////////////////////////////////////////////////////
 	void adicionaNoInicio(const T& dado) {
 		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
-		if(novo == nullptr) {
-			throw "Lista Cheia";
-		} else {
-			novo = new Elemento<T>(dado, head);
-			head = novo;
-			++size;
-		}
+		head = novo;
+		++size;
 	}
 	T retiraDoInicio() {
 		Elemento<T> *saiu;
@@ -65,7 +60,7 @@ class ListaEnc {
 			if(novo == nullptr) {
 				throw "Lista Cheia";
 			} else {
-				if(pos == 1) {
+				if(pos == 0) {
 					adicionaNoInicio(dado);
 				} else {
 					anterior = head;
@@ -83,15 +78,13 @@ class ListaEnc {
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		}
-		int i = 1;
-		Elemento<T> *proximo;
-		proximo = head;
-		while(i < size) {
-			if (igual(dado, proximo->getInfo())) {
+		Elemento<T> *atual;
+		atual = head;
+		for(int i = 0; i < size; ++i) {
+			if(igual(dado, atual->getInfo())) {
 				return i;
 			}
-			++i;
-			proximo = proximo->getProximo();
+			atual = atual->getProximo();
 		}
 
 		throw "Este dado não existe";
@@ -100,7 +93,7 @@ class ListaEnc {
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		}
-		int i = 1;
+		int i = 0;
 		Elemento<T> *proximo;
 		proximo = head;
 		while(i <= size) {
@@ -135,8 +128,11 @@ class ListaEnc {
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		} else {
-			if(pos == 1) {
+			if(pos == 0) {
 				return retiraDoInicio();
+			}
+			if(pos == size){
+				retira();
 			} else {
 				anterior = head;
 				for(int i = 0; i < pos-2; ++i) {
@@ -155,10 +151,36 @@ class ListaEnc {
 // FIM
 ////////////////////////////////////////////////////////////////////////////
 	void adiciona(const T& dado) {
-		adicionaNaPosicao(dado, size);
+		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
+		Elemento<T> *anterior;
+		if(novo == nullptr) {
+			throw "Lista Cheia";
+		} else {
+			anterior = head;
+			while(anterior->getProximo() != nullptr) {
+				anterior = anterior->getProximo();
+			}
+			anterior->setProximo(novo);
+			++size;
+		}
 	}
 	T retira() {
-	    return retiraDaPosicao(size);
+	    Elemento<T> *anterior, *eliminar;
+		T volta;
+		if(listaVazia()) {
+			throw "Lista Vazia";
+		} else {
+			anterior = head;
+			for(int i = 0; i <= size; ++i) {
+				anterior = anterior->getProximo();
+			}
+			eliminar = anterior->getProximo();
+			volta = eliminar->getInfo();
+			anterior = eliminar->getProximo();
+			delete eliminar;
+			--size;
+			return  volta;
+		}
 	}
 ////////////////////////////////////////////////////////////////////////////
 // ESPECIFICO
