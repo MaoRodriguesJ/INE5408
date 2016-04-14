@@ -19,32 +19,33 @@ class ListaEnc {
 // INICIO
 ////////////////////////////////////////////////////////////////////////////
 	void adicionaNoInicio(const T& dado) {
-		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
-		head = novo;
-		++size;
+		Elemento<T> *novo = new Elemento<T>(dado, head);
+		if(novo == nullptr) {
+			throw "Sem Espaço na Memória";
+		} else {
+			head = novo;
+			++size;
+		}
 	}
 	T retiraDoInicio() {
-		Elemento<T> *saiu;
-		T volta;
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		} else {
-			saiu = head;
-			volta = saiu->getInfo();
-			head = saiu->getProximo();
-			delete saiu;
+			Elemento<T> *atual = head;
+			T volta = atual->getInfo();
+			head = atual->getProximo();
+			delete atual;
 			--size;
 			return volta;
 		}
 	}
 	void eliminaDoInicio() {
-		Elemento<T> *saiu;
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		} else {
-			saiu = head;
-			head = saiu->getProximo();
-			delete saiu;
+			Elemento<T> *atual = head;
+			head = atual->getProximo();
+			delete atual;
 			--size;
 		}
 	}
@@ -52,25 +53,23 @@ class ListaEnc {
 // POSICAO
 ////////////////////////////////////////////////////////////////////////////
 	void adicionaNaPosicao(const T& dado, int pos) {
-		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
-		Elemento<T> *anterior;
-		if(pos > size + 1 || pos < 1) {
-			throw "Posição inválida";
+		if(pos > size || pos < 0) {
+			throw "Posição Inválida";
+		}
+		if(pos == 0) {
+			adicionaNoInicio(dado);
 		} else {
+			Elemento<T> *atual = head;
+			Elemento<T> *novo = new Elemento<T>(dado, nullptr);
 			if(novo == nullptr) {
-				throw "Lista Cheia";
+				throw "Sem Espaço na Memória";
 			} else {
-				if(pos == 0) {
-					adicionaNoInicio(dado);
-				} else {
-					anterior = head;
-					for(int i = 0; i < pos-2; ++i) {
-						anterior = anterior->getProximo();
-					}
-					novo->setProximo(anterior->getProximo());
-					anterior->setProximo(novo);
-					++size;
+				for(int i = 0; i < (pos-1); i++) {
+					atual = atual->getProximo();
 				}
+				novo->setProximo(atual->getProximo());
+				atual->setProximo(novo);
+				++size;
 			}
 		}
 	}
@@ -78,30 +77,26 @@ class ListaEnc {
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		}
-		Elemento<T> *atual;
-		atual = head;
-		for(int i = 0; i < size; ++i) {
+		Elemento<T> *atual = head;
+		for(int i = 0; i < size; i++) {
 			if(igual(dado, atual->getInfo())) {
 				return i;
 			}
 			atual = atual->getProximo();
 		}
-
 		throw "Este dado não existe";
 	}
 	T* posicaoMem(const T& dado) const {
 		if(listaVazia()) {
 			throw "Lista Vazia";
 		}
-		int i = 0;
-		Elemento<T> *proximo;
-		proximo = head;
-		while(i <= size) {
-			if(igual(dado, proximo->getInfo())) {
-				return proximo;
+		Elemento<T> *atual = head;
+		for(int i = 0; i < size; i++) {
+			if(igual(dado, atual->getInfo())) {
+				return atual;
+			} else {
+				atual = atual->getProximo();
 			}
-			++i;
-			proximo = proximo->getProximo();
 		}
 		throw "Este dado não existe";
 	}
@@ -109,41 +104,38 @@ class ListaEnc {
 		if(listaVazia()) {
 			return false;
 		} else {
-			Elemento<T> *proximo;
-			proximo = head;
-			for(int i = 0; i <= size; ++i) {
-				if(igual(dado, proximo->getInfo())) {
+			Elemento<T> *atual = head;
+			for(int i = 0; i < size; i++) {
+				if(igual(dado, atual->getInfo())) {
 					return true;
+				} else {
+					atual = atual->getProximo();
 				}
 			}
 			return false;
 		}
 	}
 	T retiraDaPosicao(int pos) {
-		Elemento<T> *anterior, *eliminar;
-		T volta;
-		if(pos > size || pos < 1) {
-			throw "Posição Inválida";
-		}
 		if(listaVazia()) {
 			throw "Lista Vazia";
+		}
+		if(pos > size-1 || pos < 0) {
+			throw "Posição Inválida";
 		} else {
 			if(pos == 0) {
 				return retiraDoInicio();
-			}
-			if(pos == size){
-				retira();
 			} else {
-				anterior = head;
-				for(int i = 0; i < pos-2; ++i) {
+				Elemento<T> *anterior = head;
+				Elemento<T> *eliminar;
+				for(int i = 0; i < (pos-1); i++) {
 					anterior = anterior->getProximo();
 				}
 				eliminar = anterior->getProximo();
-				volta = eliminar->getInfo();
-				anterior = eliminar->getProximo();
+				T volta = eliminar->getInfo();
+				anterior->setProximo(eliminar->getProximo());
 				delete eliminar;
 				--size;
-				return  volta;
+				return volta;
 			}
 		}
 	}
@@ -151,36 +143,10 @@ class ListaEnc {
 // FIM
 ////////////////////////////////////////////////////////////////////////////
 	void adiciona(const T& dado) {
-		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
-		Elemento<T> *anterior;
-		if(novo == nullptr) {
-			throw "Lista Cheia";
-		} else {
-			anterior = head;
-			while(anterior->getProximo() != nullptr) {
-				anterior = anterior->getProximo();
-			}
-			anterior->setProximo(novo);
-			++size;
-		}
+		adicionaNaPosicao(dado, size);
 	}
 	T retira() {
-	    Elemento<T> *anterior, *eliminar;
-		T volta;
-		if(listaVazia()) {
-			throw "Lista Vazia";
-		} else {
-			anterior = head;
-			for(int i = 0; i <= size; ++i) {
-				anterior = anterior->getProximo();
-			}
-			eliminar = anterior->getProximo();
-			volta = eliminar->getInfo();
-			anterior = eliminar->getProximo();
-			delete eliminar;
-			--size;
-			return  volta;
-		}
+		return retiraDaPosicao(size-1);
 	}
 ////////////////////////////////////////////////////////////////////////////
 // ESPECIFICO
@@ -189,21 +155,16 @@ class ListaEnc {
 		return retiraDaPosicao(posicao(dado));
 	}
 	void adicionaEmOrdem(const T& data) {
-		Elemento<T> *atual;
 		if(listaVazia()) {
-			throw "Lista Vazia";
+			adicionaNoInicio(data);
 		} else {
-			atual = head;
-			int i = 1;
+			Elemento<T> *atual = head;
+			int pos = 0;
 			while(atual->getProximo() != nullptr && maior(data, atual->getInfo())) {
 				atual = atual->getProximo();
-				++i;
+				++pos;
 			}
-			if(maior(data, atual->getInfo())) {
-				adicionaNaPosicao(data, i+1);
-			} else {
-				adicionaNaPosicao(data, i);
-			}
+			adicionaNaPosicao(data, pos);
 		}
 	}
 ////////////////////////////////////////////////////////////////////////////
