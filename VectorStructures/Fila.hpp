@@ -7,7 +7,7 @@
  *
  * @tparam  	T			Ponteiro para o início da Fila
  *
- * @param  		fim			Armazena o fim da FIla
+ * @param  		fim			Armazena o fim da Fila
  * @param  		tamanho		Armazena o tamanho da Fila
  */
 template <typename T>
