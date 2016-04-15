@@ -4,25 +4,25 @@
 template <typename T>
 class PilhaEnc{
  private:
- 	ListaEnc<T> *pilha;
+	ListaEnc<T> *pilha;
 
  public:
-    PilhaEnc() {
-    	pilha = new ListaEnc<T>();
-    }
-    ~PilhaEnc() {
-    	limparPilha();
-    }
-    void empilha(const T& dado) {
-    	pilha->adicionaNoInicio(dado);
-    }
-    T desempilha() {
-    	T dado = pilha->retiraDoInicio();
-    }
+	PilhaEnc() {
+		pilha = new ListaEnc<T>();
+	}
+	~PilhaEnc() {
+		limparPilha();
+	}
+	void empilha(const T& dado) {
+		pilha->adicionaNoInicio(dado);
+	}
+	T desempilha() {
+		return pilha->retiraDoInicio();
+	}
 	T topo() {
-    	T dado = pilha->retiraDoInicio();
-    	empilha(dado);
-    	return dado;
+		T dado = pilha->retiraDoInicio();
+		empilha(dado);
+		return dado;
 	}
 	void limparPilha() {
 		pilha->destroiLista();

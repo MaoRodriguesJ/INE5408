@@ -4,7 +4,7 @@
 template <typename T>
 class FilaEnc{
  private:
- 	ListaEnc<T> *fila;
+	ListaEnc<T> *fila;
 
  public:
 	FilaEnc<T>() {
@@ -26,8 +26,8 @@ class FilaEnc{
 	}
 	T primeiro() {
 		T dado = fila->retiraDoInicio();
-    	fila->adicionaNoInicio(dado);
-    	return dado;
+		fila->adicionaNoInicio(dado);
+		return dado;
 	}
 	bool filaVazia() {
 		return fila->listaVazia();
