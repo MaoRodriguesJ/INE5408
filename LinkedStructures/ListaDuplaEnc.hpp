@@ -1,5 +1,7 @@
 // Copyright [2016] <Salomão Rodrigues Jacinto>
 
+#include <stdexcept>
+
 template <typename T>
 class ListaDupla {
  private:

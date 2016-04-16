@@ -1,6 +1,16 @@
 // Copyright [2016] <Salomão Rodrigues Jacinto>
+#ifndef LISTAENC_HPP
+#define LISTAENC_HPP
+
+#include <stdexcept>
 #include "Elemento.hpp"
 
+/**
+ * @brief  		Implementação de uma estrutura de Lista encadeada em C++
+ *
+ * @param  		head		Ponteiro para o header da Lista encadeada
+ * @param  		size		Armazena a quantidade de elementos na Lista encadeada
+ */
 template<typename T>
 class ListaEnc {
  private:
@@ -8,28 +18,53 @@ class ListaEnc {
 	int size;
 
  public:
+ 	/**
+	 * @brief  		Construtor da classe ListaEnc
+	 *
+	 * @details		O header aponta para null e o size está em zero
+	 */
 	ListaEnc() {
 		size = 0;
 		head = nullptr;
 	}
+	/**
+	 * @brief 		Destrutor da classe ListaEnc
+	 *
+	 * @details 	Chama o método destroiLista() para destruir elemento por
+	 * 				elemento
+	 */
 	~ListaEnc() {
 		destroiLista();
 	}
-////////////////////////////////////////////////////////////////////////////
-// INICIO
-////////////////////////////////////////////////////////////////////////////
+	/**
+	* INICIO
+	*/
+	/**
+	 * @brief 		Adicona um elemento ao início da lista
+	 *
+	 * @details 	O valor dado como parâmetro cria um novo objeto da classe
+	 * 				elemento, dado = info, head = _next (ver classe Elemento.hpp)
+	 *
+	 * @param  		dado  Dado genérico, podendo ser um inteiro, float...
+	 */
 	void adicionaNoInicio(const T& dado) {
 		Elemento<T> *novo = new Elemento<T>(dado, head);
 		if(novo == nullptr) {
-			throw "Sem Espaço na Memória";
+			throw std::runtime_error("Sem Espaço na Memória");
 		} else {
 			head = novo;
 			++size;
 		}
 	}
+	/**
+	 * @brief 		Retira um elemento do início da lista e retorna seu dado
+	 *
+	 * @details 	O objeto da classe elemento apontada pelo head é retirado da
+	 * 				lista e seu dado é retornado
+	 */
 	T retiraDoInicio() {
 		if(listaVazia()) {
-			throw "Lista Vazia";
+			throw std::runtime_error("Lista Vazia");
 		} else {
 			Elemento<T> *atual = head;
 			T volta = atual->getInfo();
@@ -39,9 +74,15 @@ class ListaEnc {
 			return volta;
 		}
 	}
+	/**
+	 * @brief 		Retira um elemento do início da lista
+	 *
+	 * @details 	O objeto da classe elemento apontada pelo head é retirado da
+	 * 				lista
+	 */
 	void eliminaDoInicio() {
 		if(listaVazia()) {
-			throw "Lista Vazia";
+			throw std::runtime_error("Lista Vazia");
 		} else {
 			Elemento<T> *atual = head;
 			head = atual->getProximo();
@@ -49,12 +90,25 @@ class ListaEnc {
 			--size;
 		}
 	}
-////////////////////////////////////////////////////////////////////////////
-// POSICAO
-////////////////////////////////////////////////////////////////////////////
+	/**
+	* POSIÇÃO
+	*/
+	/**
+	 * @brief 		Adiciona um elemento na posição desejada
+	 *
+	 * @param 		dado	O valor dado como parâmetro cria um novo objeto da
+	 * 						classe elemento, dado = info (ver classe Elemento.hpp)
+	 *
+	 * @param 		pos   Posição desejada para o elemento ser colocado
+	 *
+	 * @details 	Caso a posição seja 0 chama o método adicionaNoInicio(), pois
+	 * 				é um caso epecífico
+	 * 				Uma explicação de como é feito os índices de posição desta
+	 * 				lista podem ser encontrada na descrição do método posicao()
+	 */
 	void adicionaNaPosicao(const T& dado, int pos) {
 		if(pos > size || pos < 0) {
-			throw "Posição Inválida";
+			throw std::runtime_error("Posição Inválida");
 		}
 		if(pos == 0) {
 			adicionaNoInicio(dado);
@@ -62,7 +116,7 @@ class ListaEnc {
 			Elemento<T> *atual = head;
 			Elemento<T> *novo = new Elemento<T>(dado, nullptr);
 			if(novo == nullptr) {
-				throw "Sem Espaço na Memória";
+				throw std::runtime_error("Sem Espaço na Memória");
 			} else {
 				for(int i = 0; i < (pos-1); i++) {
 					atual = atual->getProximo();
@@ -73,9 +127,18 @@ class ListaEnc {
 			}
 		}
 	}
+	/**
+	 * @brief 		Retorna a posição de um dado específico
+	 *
+	 * @param 		dado  Dado a ser pesquisado
+	 *
+	 * @details 	Os índices de posição começam em 0 e vão até size-1, ou seja,
+	 * 				com uma lista de 10 elementos as posições estão numeradas de
+	 * 				0 a 9
+	 */
 	int posicao(const T& dado) const {
 		if(listaVazia()) {
-			throw "Lista Vazia";
+			throw std::runtime_error("Lista Vazia");
 		}
 		Elemento<T> *atual = head;
 		for(int i = 0; i < size; i++) {
@@ -84,11 +147,16 @@ class ListaEnc {
 			}
 			atual = atual->getProximo();
 		}
-		throw "Este dado não existe";
+		throw std::runtime_error("Este dado não existe");
 	}
+	/**
+	 * @brief 		Retorna o ponteiro para posição de um dado específico
+	 *
+	 * @param 		dado  Dado a ser pesquisado
+	 */
 	T* posicaoMem(const T& dado) const {
 		if(listaVazia()) {
-			throw "Lista Vazia";
+			throw std::runtime_error("Lista Vazia");
 		}
 		Elemento<T> *atual = head;
 		for(int i = 0; i < size; i++) {
@@ -98,8 +166,14 @@ class ListaEnc {
 				atual = atual->getProximo();
 			}
 		}
-		throw "Este dado não existe";
+		throw std::runtime_error("Este dado não existe");
 	}
+	/**
+	 * @brief 		Verifica se a lista contém um dado específico, retornando
+	 * 				true caso exista um elemento com esse dado
+	 *
+	 * @param 		dado  Dado a ser pesquisado
+	 */
 	bool contem(const T& dado) {
 		if(listaVazia()) {
 			return false;
@@ -115,12 +189,20 @@ class ListaEnc {
 			return false;
 		}
 	}
+	/**
+	 * @brief 		Retira um elemento de uma posição deseja e retorna seu dado
+	 *
+	 * @param 		Posição do elemento a ser retirado
+	 *
+	 * @details 	Caso a posição seja 0, chama o metódo retiraDoInicio(), pois
+	 * 				é um caso específico
+	 */
 	T retiraDaPosicao(int pos) {
 		if(listaVazia()) {
-			throw "Lista Vazia";
+			throw std::runtime_error("Lista Vazia");
 		}
 		if(pos > size-1 || pos < 0) {
-			throw "Posição Inválida";
+			throw std::runtime_error("Posição Inválida");
 		} else {
 			if(pos == 0) {
 				return retiraDoInicio();
@@ -139,49 +221,98 @@ class ListaEnc {
 			}
 		}
 	}
-////////////////////////////////////////////////////////////////////////////
-// FIM
-////////////////////////////////////////////////////////////////////////////
+	/**
+	* FIM
+	*/
+	/**
+	 * @brief 		Adicona um elemento ao final da lista
+	 *
+	 * @param 		dado	O valor dado como parâmetro cria um novo objeto da
+	 * 						classe elemento, dado = info (ver classe Elemento.hpp)
+	 *
+	 * @details 	Utiliza o método adicionaNaPosicao()
+	 */
 	void adiciona(const T& dado) {
 		adicionaNaPosicao(dado, size);
 	}
+	/**
+	 * @brief 		Retira um elemento do final da lista e retorna seu dado
+	 *
+	 * @details 	Utiliza o método retiraNaPosicao()
+	 */
 	T retira() {
 		return retiraDaPosicao(size-1);
 	}
-////////////////////////////////////////////////////////////////////////////
-// ESPECIFICO
-////////////////////////////////////////////////////////////////////////////
+	/**
+	* ESPECÍFICO
+	*/
+	/**
+	 * @brief 		Retira um elemento que tenha um dado específico e retorna
+	 * 				seu dado
+	 *
+	 * @details 	Utiliza o método retiraNaPosicao() com paramêtro o método
+	 * 				posicao()
+	 */
 	T retiraEspecifico(const T& dado) {
 		return retiraDaPosicao(posicao(dado));
 	}
+	/**
+	 * @brief 		Adicona um elemento em ordem crescente
+	 *
+	 * @param 		dado	O valor dado como parâmetro cria um novo objeto da
+	 * 						classe elemento, dado = info (ver classe Elemento.hpp)
+	 *
+	 * @details 	Percorre elemento por elemento checando o dado de parâmetro
+	 * 				é maior que o dado da lista, caso seja vai para o próximo
+	 * 				elemento, caso não seja utiliza o método adicionaNaPosicao()
+	 * 				com o contador que é utilizado na iteração de cada elemento
+	 * 				percorrido
+	 */
 	void adicionaEmOrdem(const T& data) {
 		if(listaVazia()) {
 			adicionaNoInicio(data);
 		} else {
 			Elemento<T> *atual = head;
 			int pos = 0;
-			while(atual->getProximo() != nullptr && maior(data, atual->getInfo())) {
+			while(atual != nullptr && maior(data, atual->getInfo())) {
 				atual = atual->getProximo();
 				++pos;
 			}
 			adicionaNaPosicao(data, pos);
 		}
 	}
-////////////////////////////////////////////////////////////////////////////
-// TESTES
-////////////////////////////////////////////////////////////////////////////
+	/**
+	* TESTES
+	*/
+	/**
+	 * @brief      Checa se a lista está vazia
+	 *
+	 * @return     Retorna true caso a lista esteja vazia
+	 */
 	bool listaVazia() const {
 		return size == 0;
 	}
+	/**
+	 * @brief      Checa se dois determinados dados são iguais
+	 */
 	bool igual(T dado1, T dado2) const {
 		return dado1 == dado2;
 	}
+	/**
+	 * @brief      Checa se o dado1 é maior que o dado2
+	 */
 	bool maior(T dado1, T dado2) const {
 		return dado1 > dado2;
 	}
+	/**
+	 * @brief      Checa se o dado1 é menor que o dado2
+	 */
 	bool menor(T dado1, T dado2) const {
 		return dado1 < dado2;
 	}
+	/**
+	 * @brief 		Destrói a lista elemento por elemento
+	 */
 	void destroiLista() {
 		Elemento<T> *atual = head;
 		while (atual != nullptr) {
@@ -191,3 +322,5 @@ class ListaEnc {
 		size = 0;
 	}
 };
+
+#endif  // LISTAENC_HPP
