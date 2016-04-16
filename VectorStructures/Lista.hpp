@@ -63,10 +63,10 @@ class Lista {
 	 */
 	void adicionaNaPosicao(T dado, int posicao) {
 		if(listaCheia()) {
-			throw "Lista cheia";
+			throw std::runtime_error("Lista Cheia");
 		} else {
 			if(posicao > topo + 1 || posicao < 0) {
-				throw "Posição inválida";
+				throw std::runtime_error("Posição Inválida");
 			} else {
 				topo++;
 				int i = topo;
@@ -86,7 +86,7 @@ class Lista {
 	 */
 	void adicionaEmOrdem(T dado) {
 		if(listaCheia()) {
-			throw "Lista Cheia";
+			throw std::runtime_error("Lista Cheia");
 		} else {
 			int i = 0;
 			while(i <= topo && maior(dado, m_dados[i])) {
@@ -114,10 +114,10 @@ class Lista {
 	 */
 	T retiraDaPosicao(int posicao) {
 		if(posicao > topo || posicao < 0) {
-			throw "Posição inválidaa";
+			throw std::runtime_error("Posição Inválida");
 		} else {
 			if(listaVazia()) {
-				throw "Lista Vazia";
+				throw std::runtime_error("Lista Vazia");
 			} else {
 				topo--;
 				T dadoaux = m_dados[posicao];
@@ -153,7 +153,7 @@ class Lista {
 			i++;
 		}
 		if(i > topo) {
-			throw "Este dado não existe";
+			throw std::runtime_error("Este dado não existe");
 		} else {
 			return i;
 		}

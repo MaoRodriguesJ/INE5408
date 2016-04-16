@@ -44,7 +44,7 @@ class Pilha {
 	 */
 	T topo() {
 		if (PilhaVazia()) {
-			throw "Pilha Vazia";
+			throw std::runtime_error("Pilha Vazia");
 		} else {
 			return m_dados[top];
 		}
@@ -54,7 +54,7 @@ class Pilha {
 	 */
 	int getPosTopo() {
 		if (PilhaVazia()) {
-			throw "Pilha Vazia";
+			throw std::runtime_error("Pilha Vazia");
 		} else {
 			return top;
 		}
@@ -96,7 +96,7 @@ class Pilha {
 	 */
 	void empilha(T dado) {
 		if (PilhaCheia()) {
-			throw "Pilha Cheia!";
+			throw std::runtime_error("Pilha Cheia");
 		} else {
 			top++;
 			m_dados[top] = dado;
@@ -107,7 +107,7 @@ class Pilha {
 	 */
 	T desempilha() {
 		if (PilhaVazia()) {
-			throw "Pilha Vazia!";
+			throw std::runtime_error("Pilha Vazia");
 		} else {
 			top--;
 			return m_dados[top+1];

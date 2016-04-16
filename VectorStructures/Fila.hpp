@@ -46,7 +46,7 @@ class Fila {
 	 */
 	void inclui(T dado) {
 		if (filaCheia()) {
-			throw "Fila Cheia!";
+			throw std::runtime_error("Fila Cheia");
 		} else {
 			fim++;
 			m_dados[fim] = dado;
@@ -61,7 +61,7 @@ class Fila {
 	 */
 	T retira() {
 		if (filaVazia()) {
-			throw "Fila Vazia!";
+			throw std::runtime_error("Fila Vazia");
 		} else {
 			fim--;
 			T dado = m_dados[0];
@@ -76,7 +76,7 @@ class Fila {
 	 */
 	T ultimo() {
 		if (filaVazia()) {
-			throw "Fila Vazia!";
+			throw std::runtime_error("Fila Vazia");
 		} else {
 			return m_dados[fim];
 		}
@@ -86,7 +86,7 @@ class Fila {
 	 */
 	int getUltimo() {
 		if (filaVazia()) {
-			throw "Fila Vazia!";
+			throw std::runtime_error("Fila Vazia");
 		} else {
 			return fim;
 		}
