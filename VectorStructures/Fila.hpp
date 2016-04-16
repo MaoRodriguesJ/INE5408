@@ -2,11 +2,12 @@
 #ifndef FILA_HPP
 #define FILA_HPP
 
+#include <stdexcept>
+
 /**
  * @brief  		Implementação de uma estrutura de Fila em C++
  *
- * @tparam  	T			Ponteiro para o início da Fila
- *
+ * @param  		m_dados		Ponteiro para o início da Fila
  * @param  		fim			Armazena o fim da Fila
  * @param  		tamanho		Armazena o tamanho da Fila
  */
@@ -72,7 +73,7 @@ class Fila {
 		}
 	}
 	/**
-	 * @brief      Retira o último valor adicionado a fila
+	 * @brief      Retorna o último valor adicionado a fila
 	 */
 	T ultimo() {
 		if (filaVazia()) {

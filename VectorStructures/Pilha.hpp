@@ -2,11 +2,12 @@
 #ifndef PILHA_HPP
 #define PILHA_HPP
 
+#include <stdexcept>
+
 /**
  * @brief  		Implementação de uma estrutura de Pilha em C++
  *
- * @tparam  	T			Ponteiro para o início da Pilha
- *
+ * @param  		m_dados		Ponteiro para o início da Pilha
  * @param  		top			Armazena o topo da Pilha
  * @param  		tamanho		Armazena o tamanho da Pilha
  */

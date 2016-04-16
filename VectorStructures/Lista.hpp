@@ -2,11 +2,12 @@
 #ifndef LISTA_HPP
 #define LISTA_HPP
 
+#include <stdexcept>
+
 /**
  * @brief  		Implementação de uma estrutura de Lista em C++
  *
- * @tparam  	T			Ponteiro para o início da Lista
- *
+ * @param  		m_dados		Ponteiro para o início da Lista
  * @param  		topo		Armazena o último da Lista
  * @param  		tamanho		Armazena o tamanho da Lista
  */
@@ -30,7 +31,7 @@ class Lista {
 		tamanho = MAXLISTA;
 	}
 	/**
-	 * @brief  		Construtor da classe Fila
+	 * @brief  		Construtor da classe Lista
 	 *
 	 * @param  		tam		Valor para o tamanho da lista
 	 */
