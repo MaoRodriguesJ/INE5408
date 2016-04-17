@@ -21,16 +21,16 @@ class FilaEnc{
 	ListaEnc<T> *fila;
 
  public:
- 	 /**
-	 *@brief  		Construtor da classe FilaEnc
- 	 *
- 	 *@details 		Uma instância da classe ListaEnc é inicializada
+	 /**
+	 * @brief  		Construtor da classe FilaEnc
+	 *
+	 * @details 		Uma instância da classe ListaEnc é inicializada
 	 */
 	FilaEnc<T>() {
 		fila = new ListaEnc<T>();
 	}
 	/**
-	 *@brief  		Destrutor da classe FilaEnc
+	 * @brief  		Destrutor da classe FilaEnc
 	 */
 	~FilaEnc() {
 		limparFila();

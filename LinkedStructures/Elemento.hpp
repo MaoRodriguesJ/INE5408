@@ -15,14 +15,14 @@ class Elemento {
 	Elemento<T> *_next;
 
  public:
- 	/**
+	/**
 	 * @brief  		Construtor da classe Elemento
 	 *
- 	 *@param 		info	dado do elemento
- 	 *@param 		next	ponteiro para o próximo elemento
+	 * @param 		info	dado do elemento
+	 * @param 		next	ponteiro para o próximo elemento
 	 */
 	Elemento(const T& info, Elemento<T> *next) : info(new T(info)), _next(next) {}
- 	/**
+	/**
 	 * @brief  		Destrutor da classe Elemento
 	 */
 	~Elemento() {
