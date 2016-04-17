@@ -5,8 +5,8 @@
 /**
  * @brief  		Elemento básico para Estruturas Encadeadas
  *
- * @param  		info	Ponteiro para o dado do elemento
- * @param  		_next	Ponteiro para o próximo elemento
+ * @param  		info		Ponteiro para o dado do elemento
+ * @param  		_next		Ponteiro para o próximo elemento
  */
 template<typename T>
 class Elemento {

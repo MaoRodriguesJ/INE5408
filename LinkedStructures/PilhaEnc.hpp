@@ -7,9 +7,9 @@
 /**
  * @brief  		Implementação de uma estrutura de Pilha encadeada em C++
  *
- * @param  		pilha	Uma instância da classe ListaEnc.hpp, pois a pilha se
- * 						trata de uma lista com diferenças na ordem de entrada e
- * 						retirada de dados
+ * @param  		pilha		Uma instância da classe ListaEnc.hpp, pois a pilha se
+ * 							trata de uma lista com diferenças na ordem de entrada
+ * 							e retirada de dados
  *
  * @details 	Esta Pilha está implementada de forma inversa para se aproveitar
  * 				do desempenho dos métodos adicionaNoInicio() e retiraDoInicio()
@@ -21,7 +21,7 @@ class PilhaEnc{
 	ListaEnc<T> *pilha;
 
  public:
-	 /**
+	/**
 	 * @brief  		Construtor da classe PilhaEnc
 	 *
 	 * @details 		Uma instância da classe ListaEnc é inicializada
@@ -29,7 +29,7 @@ class PilhaEnc{
 	PilhaEnc() {
 		pilha = new ListaEnc<T>();
 	}
-	 /**
+	/**
 	 * @brief  		Destrutor da classe PilhaEnc
 	 */
 	~PilhaEnc() {

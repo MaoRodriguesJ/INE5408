@@ -7,9 +7,9 @@
 /**
  * @brief  		Implementação de uma estrutura de Fila encadeada em C++
  *
- * @param  		fila	Uma instância da classe ListaEnc.hpp, pois a fila se
- * 						trata de uma lista com diferenças na ordem de entrada e
- * 						retirada de dados
+ * @param  		fila		Uma instância da classe ListaEnc.hpp, pois a fila se
+ * 							trata de uma lista com diferenças na ordem de entrada
+ * 							e retirada de dados
  *
  * @details 	Os elementos são adicionado ao final da lista e retirados do
  * 				início, ou seja, mais rápido retirar um elemento da fila do que
@@ -21,7 +21,7 @@ class FilaEnc{
 	ListaEnc<T> *fila;
 
  public:
-	 /**
+	/**
 	 * @brief  		Construtor da classe FilaEnc
 	 *
 	 * @details 		Uma instância da classe ListaEnc é inicializada
