@@ -5,15 +5,15 @@
 #include "ListaEnc.hpp"
 
 /**
- * @brief  		Implementação de uma estrutura de Fila encadeada em C++
+ * @brief      Implementação de uma estrutura de Fila encadeada em C++
  *
- * @param  		fila		Uma instância da classe ListaEnc.hpp, pois a fila se
- * 							trata de uma lista com diferenças na ordem de entrada
- * 							e retirada de dados
+ * @details    Os elementos são adicionado ao final da lista e retirados do
+ *             início, ou seja, mais rápido retirar um elemento da fila do que
+ *             adicionar
  *
- * @details 	Os elementos são adicionado ao final da lista e retirados do
- * 				início, ou seja, mais rápido retirar um elemento da fila do que
- * 				adicionar
+ * @param      fila  Uma instância da classe ListaEnc.hpp, pois a fila se trata
+ *                   de uma lista com diferenças na ordem de entrada e retirada
+ *                   de dados
  */
 template <typename T>
 class FilaEnc{
@@ -30,26 +30,26 @@ class FilaEnc{
 		fila = new ListaEnc<T>();
 	}
 	/**
-	 * @brief  		Destrutor da classe FilaEnc
+	 * @brief      Destrutor da classe FilaEnc
 	 */
 	~FilaEnc() {
 		limparFila();
 	}
 	/**
-	 * @brief 		Adiciona um elemento ao fim da fila
+	 * @brief      Adiciona um elemento ao fim da fila
 	 *
-	 * @param 		dado	O valor dado como parâmetro cria um novo objeto da
-	 * 						classe elemento, dado = info (ver classe Elemento.hpp)
+	 * @param      dado  O valor dado como parâmetro cria um novo objeto da
+	 *                   classe elemento, dado = info (ver classe Elemento.hpp)
 	 */
 	void inclui(const T& dado) {
 		fila->adiciona(dado);
 	}
 	/**
-	 * @brief  		Retira  e retornar o primeiro valor adicionado a fila
+	 * @brief      Retira  e retornar o primeiro valor adicionado a fila
 	 *
-	 * @details  	Retira por ordem de itens colocados na fila, primeiro a
-	 * 				ser colocado é o primeiro a sair. A fila é reorganizada para
-	 * 				o início do espaço armazenado.
+	 * @details    Retira por ordem de itens colocados na fila, primeiro a ser
+	 *             colocado é o primeiro a sair. A fila é reorganizada para o
+	 *             início do espaço armazenado.
 	 */
 	T retira() {
 		return fila->retiraDoInicio();
@@ -79,7 +79,7 @@ class FilaEnc{
 		return fila->listaVazia();
 	}
 	/**
-	 * @brief 		Limpa Fila
+	 * @brief      Limpa Fila
 	 */
 	void limparFila() {
 		fila->destroiLista();
