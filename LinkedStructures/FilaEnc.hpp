@@ -65,7 +65,11 @@ class FilaEnc: private ListaEnc<T> {
 	 *             início do espaço armazenado.
 	 */
 	T retira() {
-		return ListaEnc<T>::retiraDoInicio();
+		T dado = ListaEnc<T>::retiraDoInicio();
+		if(filaVazia()) {
+			tail = nullptr;
+		}
+		return dado;
 	}
 	/**
 	 * @brief      Retorna o último valor adicionado a fila

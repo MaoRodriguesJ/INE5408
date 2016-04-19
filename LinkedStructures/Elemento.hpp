@@ -29,7 +29,7 @@ class Elemento {
 		delete info;
 	}
 	/**
-	 * @brief      Retorna o um ṕonteiro para o próximo elemento
+	 * @brief      Retorna o um ponteiro para o próximo elemento
 	 */
 	Elemento<T> *getProximo() const {
 		return _next;
