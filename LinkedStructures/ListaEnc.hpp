@@ -13,7 +13,7 @@
  */
 template<typename T>
 class ListaEnc {
- private:
+ protected:
 	Elemento<T> *head;
 	int size;
 

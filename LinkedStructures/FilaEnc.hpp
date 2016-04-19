@@ -2,7 +2,10 @@
 #ifndef FILAENC_HPP
 #define FILAENC_HPP
 
+#include <stdexcept>
+
 #include "ListaEnc.hpp"
+#include "Elemento.hpp"
 
 /**
  * @brief      Implementação de uma estrutura de Fila encadeada em C++
@@ -11,14 +14,12 @@
  *             início, ou seja, mais rápido retirar um elemento da fila do que
  *             adicionar
  *
- * @param      fila  Uma instância da classe ListaEnc.hpp, pois a fila se trata
- *                   de uma lista com diferenças na ordem de entrada e retirada
- *                   de dados
+ * @param      tail  Um ponteiro para o fim da fila
  */
 template <typename T>
-class FilaEnc{
+class FilaEnc: private ListaEnc<T> {
  private:
-	ListaEnc<T> *fila;
+	Elemento<T> *tail;
 
  public:
 	/**
@@ -26,8 +27,8 @@ class FilaEnc{
 	 *
 	 * @details 		Uma instância da classe ListaEnc é inicializada
 	 */
-	FilaEnc<T>() {
-		fila = new ListaEnc<T>();
+	FilaEnc() {
+		tail = nullptr;
 	}
 	/**
 	 * @brief      Destrutor da classe FilaEnc
@@ -42,7 +43,19 @@ class FilaEnc{
 	 *                   classe elemento, dado = info (ver classe Elemento.hpp)
 	 */
 	void inclui(const T& dado) {
-		fila->adiciona(dado);
+		Elemento<T> *novo = new Elemento<T>(dado, nullptr);
+		if(novo == nullptr) {
+			throw std::runtime_error("Sem Espaço na Memória");
+		} else {
+			if(filaVazia()) {
+				ListaEnc<T>::head = novo;
+				tail = novo;
+			} else {
+				tail->setProximo(novo);
+				tail = novo;
+			}
+			ListaEnc<T>::size++;
+		}
 	}
 	/**
 	 * @brief      Retira  e retornar o primeiro valor adicionado a fila
@@ -52,23 +65,27 @@ class FilaEnc{
 	 *             início do espaço armazenado.
 	 */
 	T retira() {
-		return fila->retiraDoInicio();
+		return ListaEnc<T>::retiraDoInicio();
 	}
 	/**
 	 * @brief      Retorna o último valor adicionado a fila
 	 */
 	T ultimo() {
-		T dado = fila->retira();
-		inclui(dado);
-		return dado;
+		if(filaVazia()) {
+			throw std::runtime_error("Lista Vazia");
+		} else {
+			return tail->getInfo();
+		}
 	}
 	/**
 	 * @brief      Retorna o primeiro valor adicionado a fila
 	 */
 	T primeiro() {
-		T dado = fila->retiraDoInicio();
-		fila->adicionaNoInicio(dado);
-		return dado;
+		if(filaVazia()) {
+			throw std::runtime_error("Lista Vazia");
+		} else {
+			return ListaEnc<T>::head->getInfo();
+		}
 	}
 	/**
 	 * @brief      Checa se a fila está cheia
@@ -76,13 +93,14 @@ class FilaEnc{
 	 * @return     Retorna true caso a fila esteja cheia
 	 */
 	bool filaVazia() {
-		return fila->listaVazia();
+		return ListaEnc<T>::listaVazia();
 	}
 	/**
 	 * @brief      Limpa Fila
 	 */
 	void limparFila() {
-		fila->destroiLista();
+		ListaEnc<T>::destroiLista();
+		tail = nullptr;
 	}
 };
 

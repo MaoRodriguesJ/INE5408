@@ -2,7 +2,10 @@
 #ifndef PILHAENC_HPP
 #define PILHAENC_HPP
 
+#include <stdexcept>
+
 #include "ListaEnc.hpp"
+#include "Elemento.hpp"
 
 /**
  * @brief      Implementação de uma estrutura de Pilha encadeada em C++
@@ -10,15 +13,10 @@
  * @details    Esta Pilha está implementada de forma inversa para se aproveitar
  *             do desempenho dos métodos adicionaNoInicio() e retiraDoInicio()
  *             da classe ListaEnc
- *
- * @tparam     pilha  Uma instância da classe ListaEnc.hpp, pois a pilha se
- *                    trata de uma lista com diferenças na ordem de entrada e
- *                    retirada de dados
  */
 template <typename T>
-class PilhaEnc{
+class PilhaEnc: private ListaEnc<T> {
  private:
-	ListaEnc<T> *pilha;
 
  public:
 	/**
@@ -27,7 +25,7 @@ class PilhaEnc{
 	 * @details    Uma instância da classe ListaEnc é inicializada
 	 */
 	PilhaEnc() {
-		pilha = new ListaEnc<T>();
+
 	}
 	/**
 	 * @brief      Destrutor da classe PilhaEnc
@@ -42,28 +40,30 @@ class PilhaEnc{
 	 *                   classe elemento, dado = info (ver classe Elemento.hpp)
 	 */
 	void empilha(const T& dado) {
-		pilha->adicionaNoInicio(dado);
+		ListaEnc<T>::adicionaNoInicio(dado);
 	}
 	/**
 	 * @brief      Retira o último valor colocado na pilha
 	 */
 	T desempilha() {
-		return pilha->retiraDoInicio();
+		return ListaEnc<T>::retiraDoInicio();
 	}
 	/**
 	 * @brief      Apenas retorna o dado do último elemento da pilha sem
 	 *             retirá-lo
 	 */
 	T topo() {
-		T dado = pilha->retiraDoInicio();
-		empilha(dado);
-		return dado;
+		if(PilhaVazia()) {
+			throw std::runtime_error("Lista Vazia");
+		} else {
+			return ListaEnc<T>::head->getInfo();
+		}
 	}
 	/**
 	 * @brief      Limpa Pilha
 	 */
 	void limparPilha() {
-		pilha->destroiLista();
+		ListaEnc<T>::destroiLista();
 	}
 	/**
 	 * @brief      Checa se a pilha está cheia
@@ -71,7 +71,7 @@ class PilhaEnc{
 	 * @return     Retorna true caso a pilha esteja cheia
 	 */
 	bool PilhaVazia() {
-		return pilha->listaVazia();
+		return ListaEnc<T>::listaVazia();
 	}
 };
 
