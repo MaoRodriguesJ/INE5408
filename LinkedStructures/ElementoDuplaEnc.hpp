@@ -12,9 +12,9 @@
 template<typename T>
 class ElementoDuplaEnc {
  private:
-	T *info;
-	Elemento<T> *_next;
-	Elemento<T> *_previous;
+	T info;
+	ElementoDuplaEnc<T> *_next;
+	ElementoDuplaEnc<T> *_previous;
 
  public:
 	/**
@@ -24,31 +24,26 @@ class ElementoDuplaEnc {
 	 * @param      next      Ponteiro para o próximo elemento
 	 * @param      previous  Ponteiro para o elemento anterior
 	 */
-	Elemento(const T& info, Elemento<T> *next, Elemento<T> *previous)
-	: info(new T(info)), _next(next), _previous(previous) {}
-	/**
-	 * @brief      Destrutor da classe Elemento
-	 */
-	~Elemento() {
-		delete info;
-	}
+	ElementoDuplaEnc(const T& info, ElementoDuplaEnc<T> *next,
+			ElementoDuplaEnc<T> *previous)
+			: info(info), _next(next), _previous(previous) {}
 	/**
 	 * @brief      Retorna o um ponteiro para o próximo elemento
 	 */
-	Elemento<T> *getProximo() const {
+	ElementoDuplaEnc<T> *getProximo() const {
 		return _next;
 	}
 	/**
 	 * @brief      Retorna o um ponteiro para o elemento anterior
 	 */
-	Elemento<T> *getAnterior() const {
+	ElementoDuplaEnc<T> *getAnterior() const {
 		return _previous;
 	}
 	/**
 	 * @brief      Retorna o dado do elemento
 	 */
 	T getInfo() const {
-		return *info;
+		return info;
 	}
 	/**
 	 * @brief      Altera qual é o próximo elemento
@@ -56,7 +51,7 @@ class ElementoDuplaEnc {
 	 * @param      next  Valor o qual será atríbuida a variável de próximo
 	 *                   elemento
 	 */
-	void setProximo(Elemento<T> *next) {
+	void setProximo(ElementoDuplaEnc<T> *next) {
 		_next = next;
 	}
 	/**
@@ -65,7 +60,7 @@ class ElementoDuplaEnc {
 	 * @param      previous  Valor o qual será atríbuida a variável de elemento
 	 *                       anterior
 	 */
-	void setAnterior(Elemento<T> *previous) {
+	void setAnterior(ElementoDuplaEnc<T> *previous) {
 		_previous = previous;
 	}
 };
