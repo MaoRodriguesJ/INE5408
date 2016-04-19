@@ -48,13 +48,13 @@ class FilaEnc: private ListaEnc<T> {
 			throw std::runtime_error("Sem Espaço na Memória");
 		} else {
 			if(filaVazia()) {
-				ListaEnc<T>::head = novo;
+				ListaEnc<T>::setHead(novo);
 				tail = novo;
 			} else {
 				tail->setProximo(novo);
 				tail = novo;
 			}
-			ListaEnc<T>::size++;
+			ListaEnc<T>::addSize();
 		}
 	}
 	/**
@@ -84,7 +84,7 @@ class FilaEnc: private ListaEnc<T> {
 		if(filaVazia()) {
 			throw std::runtime_error("Lista Vazia");
 		} else {
-			return ListaEnc<T>::head->getInfo();
+			return ListaEnc<T>::getHead()->getInfo();
 		}
 	}
 	/**

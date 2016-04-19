@@ -16,8 +16,6 @@
  */
 template <typename T>
 class PilhaEnc: private ListaEnc<T> {
- private:
-
  public:
 	/**
 	 * @brief      Construtor da classe PilhaEnc
@@ -25,7 +23,6 @@ class PilhaEnc: private ListaEnc<T> {
 	 * @details    Uma instância da classe ListaEnc é inicializada
 	 */
 	PilhaEnc() {
-
 	}
 	/**
 	 * @brief      Destrutor da classe PilhaEnc
@@ -56,7 +53,7 @@ class PilhaEnc: private ListaEnc<T> {
 		if(PilhaVazia()) {
 			throw std::runtime_error("Lista Vazia");
 		} else {
-			return ListaEnc<T>::head->getInfo();
+			return ListaEnc<T>::getHead()->getInfo();
 		}
 	}
 	/**

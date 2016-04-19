@@ -13,12 +13,54 @@
  */
 template<typename T>
 class ListaEnc {
- protected:
+ private:
 	Elemento<T> *head;
 	int size;
 
+ protected:
+	/**
+	* ACESSO AOS ATRIBUTOS
+	*/
+	/**
+	 * @brief      Get the head.
+	 *
+	 * @return     Retorna o ponteiro head
+	 */
+	Elemento<T> *getHead() const {
+		return head;
+	}
+	/**
+	 * @brief      Set the head.
+	 *
+	 * @param      next  Valor para o qual head começará a apontar
+	 */
+	void setHead(Elemento<T> *next) {
+		head = next;
+	}
+	/**
+	 * @brief      Get the size.
+	 *
+	 * @return     Retorna o número de elementos da lista
+	 */
+	int getSize() const {
+		return size;
+	}
+	/**
+	 * @brief      Incrementa o tamanho
+	 */
+	void addSize() {
+		++size;
+	}
+	/**
+	 * @brief      decrementa o tamanho
+	 */
+	void subSize() {
+		--size;
+	}
+
+
  public:
- 	/**
+	/**
 	 * @brief  		Construtor da classe ListaEnc
 	 *
 	 * @details		O header aponta para null e o size está em zero
@@ -94,17 +136,17 @@ class ListaEnc {
 	* POSIÇÃO
 	*/
 	/**
-	 * @brief 		Adiciona um elemento na posição desejada
+	 * @brief      Adiciona um elemento na posição desejada
 	 *
-	 * @param 		dado	O valor dado como parâmetro cria um novo objeto da
-	 * 						classe elemento, dado = info (ver classe Elemento.hpp)
+	 * @param      dado  O valor dado como parâmetro cria um novo objeto da
+	 *                   classe elemento, dado = info (ver classe Elemento.hpp)
 	 *
-	 * @param 		pos   Posição desejada para o elemento ser colocado
+	 * @param      pos   Posição desejada para o elemento ser colocado
 	 *
-	 * @details 	Caso a posição seja 0 chama o método adicionaNoInicio(), pois
-	 * 				é um caso epecífico
-	 * 				Uma explicação de como é feito os índices de posição desta
-	 * 				lista podem ser encontrada na descrição do método posicao()
+	 * @details    Caso a posição seja 0 chama o método adicionaNoInicio(), pois
+	 *             é um caso epecífico Uma explicação de como é feito os índices
+	 *             de posição desta lista podem ser encontrada na descrição do
+	 *             método posicao()
 	 */
 	void adicionaNaPosicao(const T& dado, int pos) {
 		if(pos > size || pos < 0) {
