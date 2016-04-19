@@ -11,7 +11,7 @@
 template<typename T>
 class Elemento {
  private:
-	T *info;
+	T info;
 	Elemento<T> *_next;
 
  public:
@@ -21,13 +21,7 @@ class Elemento {
 	 * @param      info  dado do elemento
 	 * @param      next  ponteiro para o próximo elemento
 	 */
-	Elemento(const T& info, Elemento<T> *next) : info(new T(info)), _next(next) {}
-	/**
-	 * @brief      Destrutor da classe Elemento
-	 */
-	~Elemento() {
-		delete info;
-	}
+	Elemento(const T& info, Elemento<T> *next) : info(info), _next(next) {}
 	/**
 	 * @brief      Retorna o um ponteiro para o próximo elemento
 	 */
@@ -37,8 +31,8 @@ class Elemento {
 	/**
 	 * @brief      Retorna o dado do elemento
 	 */
-	T getInfo() const {
-		return *info;
+	const T &getInfo() const {
+		return info;
 	}
 	/**
 	 * @brief      Altera qual é o próximo elemento

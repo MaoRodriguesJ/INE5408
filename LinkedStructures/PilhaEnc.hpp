@@ -22,8 +22,7 @@ class PilhaEnc: private ListaEnc<T> {
 	 *
 	 * @details    Uma instância da classe ListaEnc é inicializada
 	 */
-	PilhaEnc() {
-	}
+	PilhaEnc(): ListaEnc<T>::ListaEnc() {}
 	/**
 	 * @brief      Destrutor da classe PilhaEnc
 	 */
@@ -49,12 +48,11 @@ class PilhaEnc: private ListaEnc<T> {
 	 * @brief      Apenas retorna o dado do último elemento da pilha sem
 	 *             retirá-lo
 	 */
-	T topo() {
+	const T &topo() const {
 		if(PilhaVazia()) {
 			throw std::runtime_error("Lista Vazia");
-		} else {
-			return ListaEnc<T>::getHead()->getInfo();
 		}
+		return ListaEnc<T>::getHead()->getInfo();
 	}
 	/**
 	 * @brief      Limpa Pilha
@@ -67,7 +65,7 @@ class PilhaEnc: private ListaEnc<T> {
 	 *
 	 * @return     Retorna true caso a pilha esteja cheia
 	 */
-	bool PilhaVazia() {
+	bool PilhaVazia() const {
 		return ListaEnc<T>::listaVazia();
 	}
 };

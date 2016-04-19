@@ -19,7 +19,7 @@
 template <typename T>
 class FilaEnc: private ListaEnc<T> {
  private:
-	Elemento<T> *tail;
+	Elemento<T> *tail = nullptr;
 
  public:
 	/**
@@ -27,9 +27,7 @@ class FilaEnc: private ListaEnc<T> {
 	 *
 	 * @details 		Uma instância da classe ListaEnc é inicializada
 	 */
-	FilaEnc() {
-		tail = nullptr;
-	}
+	FilaEnc(): ListaEnc<T>::ListaEnc(), tail(nullptr) {}
 	/**
 	 * @brief      Destrutor da classe FilaEnc
 	 */
@@ -74,7 +72,7 @@ class FilaEnc: private ListaEnc<T> {
 	/**
 	 * @brief      Retorna o último valor adicionado a fila
 	 */
-	T ultimo() {
+	T ultimo() const {
 		if(filaVazia()) {
 			throw std::runtime_error("Lista Vazia");
 		} else {
@@ -84,7 +82,7 @@ class FilaEnc: private ListaEnc<T> {
 	/**
 	 * @brief      Retorna o primeiro valor adicionado a fila
 	 */
-	T primeiro() {
+	T primeiro() const {
 		if(filaVazia()) {
 			throw std::runtime_error("Lista Vazia");
 		} else {
@@ -96,7 +94,7 @@ class FilaEnc: private ListaEnc<T> {
 	 *
 	 * @return     Retorna true caso a fila esteja cheia
 	 */
-	bool filaVazia() {
+	bool filaVazia() const {
 		return ListaEnc<T>::listaVazia();
 	}
 	/**

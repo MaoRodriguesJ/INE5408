@@ -14,8 +14,8 @@
 template<typename T>
 class ListaEnc {
  private:
-	Elemento<T> *head;
-	int size;
+	Elemento<T> *head = nullptr;
+	int size = 0;
 
  protected:
 	/**
@@ -65,10 +65,7 @@ class ListaEnc {
 	 *
 	 * @details		O header aponta para null e o size está em zero
 	 */
-	ListaEnc() {
-		size = 0;
-		head = nullptr;
-	}
+	ListaEnc() = default;
 	/**
 	 * @brief 		Destrutor da classe ListaEnc
 	 *
@@ -216,7 +213,7 @@ class ListaEnc {
 	 *
 	 * @param 		dado  Dado a ser pesquisado
 	 */
-	bool contem(const T& dado) {
+	bool contem(const T& dado) const {
 		if(listaVazia()) {
 			return false;
 		} else {
@@ -292,7 +289,7 @@ class ListaEnc {
 	 * @brief 		Retira um elemento que tenha um dado específico e retorna
 	 * 				seu dado
 	 *
-	 * @details 	Utiliza o método retiraNaPosicao() com paramêtro o método
+	 * @details 	Utiliza o método retiraDaPosicao() com paramêtro o método
 	 * 				posicao()
 	 */
 	T retiraEspecifico(const T& dado) {
@@ -301,7 +298,7 @@ class ListaEnc {
 	/**
 	 * @brief 		Adicona um elemento em ordem crescente
 	 *
-	 * @param 		dado	O valor dado como parâmetro cria um novo objeto da
+	 * @param 		data	O valor dado como parâmetro cria um novo objeto da
 	 * 						classe elemento, dado = info (ver classe Elemento.hpp)
 	 *
 	 * @details 	Percorre elemento por elemento checando o dado de parâmetro
