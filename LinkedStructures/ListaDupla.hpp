@@ -134,7 +134,9 @@ class ListaDupla {
 					atual = atual->getProximo();
 				}
 				novo->setProximo(atual->getProximo());
-				atual->getProximo()->setAnterior(novo);
+				if(atual->getProximo() != nullptr) {
+					atual->getProximo()->setAnterior(novo);
+				}
 				novo->setAnterior(atual);
 				atual->setProximo(novo);
 				++size;
@@ -228,8 +230,10 @@ class ListaDupla {
 				}
 				eliminar = anterior->getProximo();
 				T volta = eliminar->getInfo();
+				if(eliminar->getProximo() != nullptr) {
+					eliminar->getProximo()->setAnterior(anterior);
+				}
 				anterior->setProximo(eliminar->getProximo());
-				anterior->getProximo()->setAnterior(anterior);
 				delete eliminar;
 				--size;
 				return volta;
