@@ -11,12 +11,15 @@
  * 				encadeada em C++
  *
  * @param  		head		Ponteiro para o header da Lista encadeada
+ * @param 		sentinela	Elemento para manter a complexidade do adiciona no
+ * 							inicio
  * @param  		size		Armazena a quantidade de elementos na Lista encadeada
  */
 template <typename T>
 class ListaDuplaCirc {
  private:
 	ElementoDuplaEnc<T> *head = nullptr;
+	ElementoDuplaEnc<T> *sentinela = new ElementoDuplaEnc<T>(0, nullptr, nullptr);
 	int size = 0;
 
  public:
@@ -52,23 +55,20 @@ class ListaDuplaCirc {
 		if(novo == nullptr) {
 			throw std::runtime_error("Sem Espaço na Memória");
 		} else {
+			sentinela->setProximo(novo);
+			novo->setAnterior(sentinela);
 			if(size == 0) {
 				head = novo;
-				novo->setProximo(novo);
-				novo->setAnterior(novo);
+				novo->setProximo(sentinela);
+				sentinela->setAnterior(novo);
 				++size;
 				return;
 			} else {
-				ElementoDuplaEnc<T> *atual = head;
-				while(atual->getProximo() != head) {
-					atual = atual->getProximo();
-				}
+				novo->setProximo(head);
 				head->setAnterior(novo);
-				atual->setProximo(novo);
 				head = novo;
 				++size;
 			}
-
 		}
 	}
 	/**
@@ -85,21 +85,11 @@ class ListaDuplaCirc {
 			ElementoDuplaEnc<T> *atual = head;
 			T volta = atual->getInfo();
 			head = atual->getProximo();
+			sentinela->setProximo(head);
+			head->setAnterior(sentinela);
+			delete atual;
 			--size;
-
-			if(listaVazia()) {
-				delete atual;
-				return volta;
-			} else {
-				ElementoDuplaEnc<T> *teste = head;
-				while(teste->getProximo() != atual) {
-					teste = teste->getProximo();
-				}
-				teste->setProximo(head);
-				head->setAnterior(teste);
-				delete atual;
-				return volta;
-			}
+			return volta;
 		}
 	}
 	/**
@@ -114,20 +104,10 @@ class ListaDuplaCirc {
 		} else {
 			ElementoDuplaEnc<T> *atual = head;
 			head = atual->getProximo();
+			sentinela->setProximo(head);
+			head->setAnterior(sentinela);
+			delete atual;
 			--size;
-
-			if(listaVazia()) {
-				delete atual;
-				return;
-			} else {
-				ElementoDuplaEnc<T> *teste = head;
-				while(teste->getProximo() != atual) {
-					teste = teste->getProximo();
-				}
-				teste->setProximo(head);
-				head->setAnterior(teste);
-				delete atual;
-			}
 		}
 	}
 	/**
@@ -293,7 +273,7 @@ class ListaDuplaCirc {
 	 * @brief      Retorna o tamanho da lista
 	 */
 	int verUltimo() {
-		return size;
+		return size-1;
 	}
 	/**
 	* ESPECÍFICO
@@ -354,7 +334,7 @@ class ListaDuplaCirc {
 				} else {
 					break;
 				}
-			} while (atual->getProximo() != head);
+			} while (atual->getProximo() != sentinela);
 			adicionaNaPosicaoDuplo(data, pos);
 		}
 	}

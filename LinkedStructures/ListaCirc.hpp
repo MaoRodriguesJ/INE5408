@@ -9,12 +9,15 @@
  * @brief  		Implementação de uma estrutura de Lista Encadeada Circular em C++
  *
  * @param  		head		Ponteiro para o header da Lista
+ * @param 		sentinela	Elemento para manter a complexidade do adiciona no
+ * 							inicio
  * @param  		size		Armazena a quantidade de elementos na Lista
  */
 template<typename T>
 class ListaCirc {
  private:
 	Elemento<T> *head = nullptr;
+	Elemento<T> *sentinela = new Elemento<T>(0, nullptr);
 	int size = 0;
 
  public:
@@ -49,20 +52,15 @@ class ListaCirc {
 		if(novo == nullptr) {
 			throw std::runtime_error("Sem Espaço na Memória");
 		} else {
+			sentinela->setProximo(novo);
 			if(size == 0) {
 				head = novo;
-				novo->setProximo(novo);
+				novo->setProximo(sentinela);
 				++size;
 				return;
 			} else {
-				Elemento<T> *atual = head;
-				while(atual->getProximo() != head) {
-					atual = atual->getProximo();
-				}
-				atual->setProximo(novo);
 				novo->setProximo(head);
 				head = novo;
-				++size;
 			}
 		}
 	}
@@ -79,20 +77,10 @@ class ListaCirc {
 			Elemento<T> *atual = head;
 			T volta = atual->getInfo();
 			head = atual->getProximo();
+			sentinela->setProximo(head);
+			delete atual;
 			--size;
-
-			if(listaVazia()) {
-				delete atual;
-				return volta;
-			} else {
-				Elemento<T> *teste = head;
-				while(teste->getProximo() != atual) {
-					teste = teste->getProximo();
-				}
-				teste->setProximo(head);
-				delete atual;
-				return volta;
-			}
+			return volta;
 		}
 	}
 	/**
@@ -107,19 +95,9 @@ class ListaCirc {
 		} else {
 			Elemento<T> *atual = head;
 			head = atual->getProximo();
+			sentinela->setProximo(head);
+			delete atual;
 			--size;
-
-			if(listaVazia()) {
-				delete atual;
-				return;
-			} else {
-				Elemento<T> *teste = head;
-				while(teste->getProximo() != atual) {
-					teste = teste->getProximo();
-				}
-				teste->setProximo(head);
-				delete atual;
-			}
 		}
 	}
 	/**
@@ -324,7 +302,7 @@ class ListaCirc {
 			adicionaNoInicio(data);
 		} else {
 			Elemento<T> *atual = head;
-			int pos = 0;
+			int pos = 1;
 			do {
 				if(maior(data, atual->getInfo())) {
 					atual = atual->getProximo();
@@ -332,7 +310,7 @@ class ListaCirc {
 				} else {
 					break;
 				}
-			} while (atual->getProximo() != head);
+			} while (atual->getProximo() != sentinela);
 			adicionaNaPosicao(data, pos);
 		}
 	}
