@@ -35,6 +35,7 @@ class NoBinario {
 	 * @brief      Destrutor NoBinario
 	 */
 	virtual ~NoBinario() {
+		delete dado_;
 		if(esquerda != nullptr) {
 			delete esquerda;
 		}
@@ -105,26 +106,21 @@ class NoBinario {
 	 *
 	 * @return     Retorna árvore para recursão
 	 */
-	NoBinario<T>* inserir(const T& dado, NoBinario<T>* arv) {
-		NoBinario<T> *novo = new NoBinario<T>(dado);
-		if(novo == nullptr) {
-			throw std::runtime_error("Sem Espaço na Memória");
-		} else {
-			if(dado < *(arv->getDado())) {
-				if(arv->getEsquerda() == nullptr) {
-					arv->esquerda = novo;
-				} else {
-					arv = inserir(dado, arv->getEsquerda());
-				}
+	NoBinario<T>* inserir(const T& dado, NoBinario<T>* arv) { 
+		if(dado < *(arv->getDado())) {
+			if(arv->getEsquerda() == nullptr) {
+				arv->esquerda = new NoBinario<T>(dado);
 			} else {
-				if(arv->getDireita() == nullptr) {
-					arv->direita = novo;
-				} else {
-					arv = inserir(dado, arv->getDireita());
-				}
+				arv = inserir(dado, arv->getEsquerda());
 			}
-			return arv;
+		} else {
+			if(arv->getDireita() == nullptr) {
+				arv->direita = new NoBinario<T>(dado);
+			} else {
+				arv = inserir(dado, arv->getDireita());
+			}
 		}
+		return arv;
 	}
 	/**
 	 * @brief      Remover um nó da árvore
