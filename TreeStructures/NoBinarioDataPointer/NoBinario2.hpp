@@ -8,19 +8,15 @@
 
 /**
  * @brief      Implementação de uma estrutura de Árvore Binária em C++
- *
- * @param      dado_      Dado genérico do nó
- * @param      esquerda   Ponteiro para o nó a esquerda
- * @param      direita    Ponteiro para o nó a direita
- * @param      elementos  Elemento acessados durante o percurso realizado
  */
 template <typename T>
 class NoBinario {
  protected:
-	T* dado_;
-	NoBinario<T>* esquerda;
-	NoBinario<T>* direita;
-	std::vector<NoBinario<T>* > elementos;
+	T* dado_;  //!< Dado genérico do nó
+	NoBinario<T>* esquerda;  //!< Ponteiro para o nó a esquerda
+	NoBinario<T>* direita;  //!< Ponteiro para o nó a direita
+	std::vector<NoBinario<T>* > elementos;  //!< Elemento acessados durante
+	                                        // o percurso realizado
 
  public:
 	/**
@@ -39,10 +35,12 @@ class NoBinario {
 	 * @brief      Destrutor NoBinario
 	 */
 	virtual ~NoBinario() {
-		posOrdem(this);
-		// for(unsigned i = 0; i < elementos.size(); i++) {
-		// 	this->remover(this, *(elementos[i]->getDado()));
-		// }
+		if(esquerda != nullptr) {
+			delete esquerda;
+		}
+		if(direita != nullptr) {
+			delete direita;
+		}
 	}
 	/**
 	 * @brief      Get dado
@@ -75,30 +73,6 @@ class NoBinario {
 	 */
 	NoBinario<T>* getDireita() {
 		return direita;
-	}
-	/**
-	 * @brief      Set esquerda
-	 *
-	 * @param      node  Nó que será colocado a esquerda
-	 */
-	void setEsquerda(NoBinario<T>* node) {
-		esquerda = node;
-	}
-	/**
-	 * @brief      Set direita
-	 *
-	 * @param      node  Nó que será colocado a direita
-	 */
-	void setDireita(NoBinario<T>* node) {
-		direita = node;
-	}
-	/**
-	 * @brief      Set dado
-	 *
-	 * @param      dado  Novo dado a ser atribuído ao nó
-	 */
-	void setDado(const T& dado) {
-		dado_ = new T(dado);
 	}
 	/**
 	 * @brief      Busca Binária
@@ -138,13 +112,13 @@ class NoBinario {
 		} else {
 			if(dado < *(arv->getDado())) {
 				if(arv->getEsquerda() == nullptr) {
-					arv->setEsquerda(novo);
+					arv->esquerda = novo;
 				} else {
 					arv = inserir(dado, arv->getEsquerda());
 				}
 			} else {
 				if(arv->getDireita() == nullptr) {
-					arv->setDireita(novo);
+					arv->direita = novo;
 				} else {
 					arv = inserir(dado, arv->getDireita());
 				}
@@ -166,21 +140,20 @@ class NoBinario {
 		} else {
 			NoBinario<T> *tmp, *filho;
 			if(dado < *(arv->getDado())) {
-				arv->setEsquerda(remover(arv->getEsquerda(), dado));
+				arv->esquerda = remover(arv->getEsquerda(), dado);
 				return arv;
 			} else {
 				if(dado > *(arv->getDado())) {
-					arv->setDireita(remover(arv->getDireita(), dado));
+					arv->direita = remover(arv->getDireita(), dado);
 					return arv;
 				} else {
 					tmp = arv;
 					if(arv->getDireita() != nullptr &&
 						arv->getEsquerda() != nullptr) {
 						tmp = minimo(arv->getDireita());
-						arv->setDado(*(tmp->getDado()));
-						arv->setDireita(remover(arv->getDireita(),
-										*(arv->getDado())));
-
+						arv->dado_ = tmp->getDado();
+						arv->direita = remover(arv->getDireita(),
+											  *(arv->getDado()));
 						return arv;
 					} else {
 						if(arv->getDireita() != nullptr) {
