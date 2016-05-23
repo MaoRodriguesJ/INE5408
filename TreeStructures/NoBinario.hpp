@@ -1,7 +1,4 @@
 // Copyright [2016] <Salomão Rodrigues Jacinto>
-//
-// Did some changes to the original: Created set methods and changed dado to a
-// 									 non-pointer (as well as the method getDado()).
 #ifndef NO_BINARIO_HPP
 #define NO_BINARIO_HPP
 
@@ -11,19 +8,15 @@
 
 /**
  * @brief      Implementação de uma estrutura de Árvore Binária em C++
- *
- * @param      dado_      Dado genérico do nó
- * @param      esquerda   Ponteiro para o nó a esquerda
- * @param      direita    Ponteiro para o nó a direita
- * @param      elementos  Elemento acessados durante o percurso realizado
  */
 template <typename T>
 class NoBinario {
  protected:
-	T dado_;
-	NoBinario<T>* esquerda;
-	NoBinario<T>* direita;
-	std::vector<NoBinario<T>* > elementos;
+	T* dado_;  //!< Dado genérico do nó
+	NoBinario<T>* esquerda;  //!< Ponteiro para o nó a esquerda
+	NoBinario<T>* direita;  //!< Ponteiro para o nó a direita
+	std::vector<NoBinario<T>* > elementos;  //!< Elemento acessados durante
+	                                        // o percurso realizado
 
  public:
 	/**
@@ -36,23 +29,26 @@ class NoBinario {
 	NoBinario<T>(const T& dado) {
 		esquerda = nullptr;
 		direita = nullptr;
-		dado_ = dado;
+		dado_ = new T(dado);
 	}
 	/**
 	 * @brief      Destrutor NoBinario
 	 */
 	virtual ~NoBinario() {
-		// posOrdem(this);
-		// for(unsigned i = 0; i < elementos.size(); i++) {
-		// 	remover(elementos[elementos.size()], elementos[i]->getDado());
-		// }
+		delete dado_;
+		if(esquerda != nullptr) {
+			delete esquerda;
+		}
+		if(direita != nullptr) {
+			delete direita;
+		}
 	}
 	/**
 	 * @brief      Get dado
 	 *
 	 * @return     T dado
 	 */
-	T getDado() {
+	T* getDado() {
 		return dado_;
 	}
 	/**
@@ -79,15 +75,6 @@ class NoBinario {
 	NoBinario<T>* getDireita() {
 		return direita;
 	}
-	void setEsquerda(NoBinario<T>* node) {
-		esquerda = node;
-	}
-	void setDireita(NoBinario<T>* node) {
-		direita = node;
-	}
-	void setDado(const T& dado) {
-		dado_ = dado;
-	}
 	/**
 	 * @brief      Busca Binária
 	 *
@@ -97,9 +84,9 @@ class NoBinario {
 	 * @return     Retorna o nó que contém o dado, retornadndo um nullptr caso o
 	 *             dado não exista na árvore
 	 */
-	T busca(const T& dado, NoBinario<T>* arv) {
-		while(arv != nullptr && arv->getDado() != dado) {
-			if(arv->getDado() < dado) {
+	T* busca(const T& dado, NoBinario<T>* arv) {
+		while(arv != nullptr && *(arv->getDado()) != dado) {
+			if(*(arv->getDado()) < dado) {
 				arv = arv->getDireita();
 			} else {
 				arv = arv->getEsquerda();
@@ -119,26 +106,21 @@ class NoBinario {
 	 *
 	 * @return     Retorna árvore para recursão
 	 */
-	NoBinario<T>* inserir(const T& dado, NoBinario<T>* arv) {
-		NoBinario<T> *novo = new NoBinario<T>(dado);
-		if(novo == nullptr) {
-			throw std::runtime_error("Sem Espaço na Memória");
-		} else {
-			if(dado < arv->getDado()) {
-				if(arv->getEsquerda() == nullptr) {
-					arv->setEsquerda(novo);
-				} else {
-					arv = inserir(dado, arv->getEsquerda());
-				}
+	NoBinario<T>* inserir(const T& dado, NoBinario<T>* arv) { 
+		if(dado < *(arv->getDado())) {
+			if(arv->getEsquerda() == nullptr) {
+				arv->esquerda = new NoBinario<T>(dado);
 			} else {
-				if(arv->getDireita() == nullptr) {
-					arv->setDireita(novo);
-				} else {
-					arv = inserir(dado, arv->getDireita());
-				}
+				arv = inserir(dado, arv->getEsquerda());
 			}
-			return arv;
+		} else {
+			if(arv->getDireita() == nullptr) {
+				arv->direita = new NoBinario<T>(dado);
+			} else {
+				arv = inserir(dado, arv->getDireita());
+			}
 		}
+		return arv;
 	}
 	/**
 	 * @brief      Remover um nó da árvore
@@ -153,23 +135,21 @@ class NoBinario {
 			return arv;
 		} else {
 			NoBinario<T> *tmp, *filho;
-			if(dado < arv->getDado()) {
-				arv->setEsquerda(remover(arv->getEsquerda(), dado));
+			if(dado < *(arv->getDado())) {
+				arv->esquerda = remover(arv->getEsquerda(), dado);
 				return arv;
 			} else {
-				if(dado > arv->getDado()) {
-					arv->setDireita(remover(arv->getDireita(), dado));
+				if(dado > *(arv->getDado())) {
+					arv->direita = remover(arv->getDireita(), dado);
 					return arv;
 				} else {
 					tmp = arv;
 					if(arv->getDireita() != nullptr &&
 						arv->getEsquerda() != nullptr) {
-
 						tmp = minimo(arv->getDireita());
-						arv->setDado(tmp->getDado());
-						arv->setDireita(remover(arv->getDireita(),
-										arv->getDado()));
-
+						arv->dado_ = tmp->getDado();
+						arv->direita = remover(arv->getDireita(),
+											  *(arv->getDado()));
 						return arv;
 					} else {
 						if(arv->getDireita() != nullptr) {
@@ -189,6 +169,14 @@ class NoBinario {
 			}
 		}
 	}
+
+	/**
+	 * @brief      Retorna o nó com o menor valor a partir de um determinado nó
+	 *
+	 * @param      nodo  Nó para início da busca
+	 *
+	 * @return     Nó que possuí o menor valor
+	 */
 	NoBinario<T>* minimo(NoBinario<T>* nodo) {
 		if(nodo->getEsquerda() == nullptr) {
 			return nodo;
@@ -197,6 +185,12 @@ class NoBinario {
 			return nodo;
 		}
 	}
+	/**
+	 * @brief      Organiza os nós em um vetor começando pela raiz, depois pelos
+	 *             nós a esquerda e depois pelos nós a direita
+	 *
+	 * @param      nodo  Nó para início da ordenação
+	 */
 	void preOrdem(NoBinario<T>* nodo) {
 		if(nodo != nullptr) {
 			elementos.push_back(nodo);
@@ -204,6 +198,12 @@ class NoBinario {
 			preOrdem(nodo->getDireita());
 		}
 	}
+	/**
+	 * @brief      Organiza os nós em um vetor começando pelos nós a esquerda,
+	 *             depois pela raiz e pelos nós a direita
+	 *
+	 * @param      nodo  Nó para início da ordenação
+	 */
 	void emOrdem(NoBinario<T>* nodo) {
 		if(nodo != nullptr) {
 			preOrdem(nodo->getEsquerda());
@@ -211,6 +211,12 @@ class NoBinario {
 			preOrdem(nodo->getDireita());
 		}
 	}
+	/**
+	 * @brief      Organiza os nós em um vetor começando pelos nós a esquerda,
+	 *             depois pelos nós a direita e a raiz
+	 *
+	 * @param      nodo  Nó para início da ordenação
+	 */
 	void posOrdem(NoBinario<T>* nodo) {
 		if(nodo != nullptr) {
 			posOrdem(nodo->getEsquerda());
@@ -220,4 +226,4 @@ class NoBinario {
 	}
 };
 
-#endif // NO_BINARIO_HPP
+#endif  // NO_BINARIO_HPP
