@@ -23,20 +23,14 @@ int main() {
 	NoAVL<int>* root = new NoAVL<int>(10);
 	root = root->inserir(15, root);
 	root = root->inserir(20, root);
-	root = root->inserir(12, root);
 	root = root->inserir(21, root);
 	root = root->inserir(22, root);
 	root = root->inserir(9, root);
+	root = root->inserir(16, root);
+	root = root->inserir(12, root);
+	root = root->inserir(8, root);
 
 	std::cout << root->getAltura() << "\n";
-
-	// root = root->inserir(20, root);
-	// AVL<int>* root = new AVL<int>();
-	// root->Insert(15);
-	// root->Insert(20);
-	// root->Insert(25);
-
-	// root->PrintPreOrderTraversal(std::cout);
 
 	postorder(root, 0);
 	return 0;
