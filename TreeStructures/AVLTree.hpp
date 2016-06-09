@@ -260,13 +260,25 @@ class NoAVL  {
 		k3->direita = rightRotate(k3->getDireita());
 		return leftRotate(k3);
 	}
-
+	/**
+	 * @brief      Teste de balanceamento
+	 *
+	 * @return     int altura nó esquerdo - altura nó direito
+	 */
 	int balanceFactor(NoAVL<T>* node) {
 		if(node == nullptr)
 			return 0;
 		return height(node->getEsquerda()) - height(node->getDireita());
 	}
-
+	/**
+	 * @brief      Insere novo dado na árvore
+	 *
+	 * @param      dado  Dado a ser inserido
+	 * @param      arv   Árvore a inserir o dado
+	 *
+	 * @return     Recursão e rotações para manter a estrutura e balanceamento
+	 *             da árvore após a exclusão
+	 */
 	NoAVL<T>* inserir(const T& dado, NoAVL<T>* arv) {
 		if(arv == nullptr) {
 			return new NoAVL<T>(dado);
@@ -292,18 +304,24 @@ class NoAVL  {
 		}
 		return arv;
 	}
-
+	/**
+	 * @brief      Remover um nó da árvore
+	 *
+	 * @param      arv   Árvore
+	 * @param      dado  Dado a ser removido
+	 *
+	 * @return     Recursão e rotações para manter a estrutura e balanceamento
+	 *             da árvore após a exclusão
+	 */
 	NoAVL<T>* remover(NoAVL<T>* arv, const T& dado) {
 		if(arv == nullptr) {
 			return arv;
 		}
 		if(dado < *arv->getDado()) {
 			arv->esquerda = remover(arv->getEsquerda(), dado);
-		}
-		else if(dado > *arv->getDado()) {
+		} else if (dado > *arv->getDado()) {
 			arv->direita = remover(arv->getDireita(), dado);
-		}
-		else {
+		} else {
 			NoAVL<T>* tmp;
 			if(arv->getEsquerda() != nullptr && arv->getDireita() != nullptr) {
 				tmp = minimo(arv->getDireita());

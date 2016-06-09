@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "gtest/gtest.h"
-#include "NoAVL.hpp"
+#include "AVLTree.hpp"
 
 #define TAM1 100
 #define TAM2 200
