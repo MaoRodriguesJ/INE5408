@@ -69,30 +69,6 @@ class NoAVL  {
 			return node->getAltura();
 	}
 	/**
-	 * @brief      teste de altura caso o nó da esquerda seja nulo e tente
-	 * 			   retornar sua altura
-	 *
-	 * @return     int altura
-	 */
-	int heightAtLeft(NoAVL<T>* node) {
-		if(node == nullptr)
-			return -1;
-		else
-			return height(node->getEsquerda());
-	}
-	/**
-	 * @brief      teste de altura caso o nó da direita seja nulo e tente
-	 * 			   retornar sua altura
-	 *
-	 * @return     int altura
-	 */
-	int heightAtRight(NoAVL<T>* node) {
-		if(node == nullptr)
-			return -1;
-		else
-			return height(node->getDireita());
-	}
-	/**
 	 * @brief      Get elementos
 	 *
 	 * @return     Vector elementos
@@ -201,156 +177,171 @@ class NoAVL  {
 			elementos.push_back(nodo);
 		}
 	}
-////////////////////////////////////////////////////////////////////////////////
-//  FALTA DOCUMENTAR
-////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * @brief      Uma função para atualizar a altura de um nó
+	 *
+	 * @param      nodo  Nó o qual quer se atualizar a altura
+	 */
+	void updateHeight(NoAVL<T>* node) {
+		node->altura = std::max(height(node->getDireita()),
+								height(node->getEsquerda()))+1;
+	}
+	/**
+	 * @brief      Rotação para direita (ou rotação à esquerda)
+	 *
+	 * @param      k2  nó desbalanceado
+	 *
+	 * @return         k2         k1
+	 * 			      /    	     /  \
+	 * 			     k1    ->   x    k2
+	 * 			    /
+	 *			   x
+	 */
 	NoAVL<T>* rightRotate(NoAVL<T> *k2) {
 		NoAVL<T> *k1;
 		k1 = k2->getEsquerda();
 		k2->esquerda = k1->getDireita();
 		k1->direita = k2;
 
-		k2->altura = std::max(height(k2->getDireita()),
-							  height(k2->getEsquerda()))+1;
-		k1->altura = std::max(height(k1->getDireita()),
-							  height(k1->getEsquerda()))+1;
+		updateHeight(k2);
+		updateHeight(k1);
+
 		return k1;
 	}
+	/**
+	 * @brief      Rotação para esquerda (ou rotação à direita)
+	 *
+	 * @param      k2  nó desbalanceado
+	 *
+	 * @return     k2              k1
+	 * 			     \    	      /  \
+	 * 			      k1    ->   k2   x
+	 * 			       \
+	 *			        x
+	 */
 	NoAVL<T>* leftRotate(NoAVL<T> *k2) {
 		NoAVL<T> *k1;
 		k1 = k2->getDireita();
 		k2->direita = k1->getEsquerda();
 		k1->esquerda = k2;
 
-		k2->altura = std::max(height(k2->getDireita()),
-							  height(k2->getEsquerda()))+1;
-		k1->altura = std::max(height(k1->getDireita()),
-							  height(k1->getEsquerda()))+1;
+		updateHeight(k2);
+		updateHeight(k1);
+
 		return k1;
 	}
+	/**
+	 * @brief      Dupla rotação à esquerda
+	 *
+	 * @param      k3  nó desbalanceado
+	 *
+	 * @return       k3            k3			 y			Onde o y inicial é
+	 * 			    /    	      /			    / \   	    maior que x e menor
+	 * 			   x      ->     y      ->     x   k3  		que k3.
+	 * 			    \			/
+	 *	             y		   x
+	 */
 	NoAVL<T>* doubleRotateAtLeft(NoAVL<T> *k3) {
 		k3->esquerda = leftRotate(k3->getEsquerda());
 		return rightRotate(k3);
 	}
+	/**
+	 * @brief      Dupla rotação à direita
+	 *
+	 * @param      k3  nó desbalanceado
+	 *
+	 * @return     k3          k3			   y		Onde o y inicial é maior
+	 * 			     \ 	      	 \		      / \   	que k3 e menor que x.
+	 * 			      x    ->     y     ->   k3  x
+	 * 			     /			   \
+	 *	            y		        x
+	 */
 	NoAVL<T>* doubleRotateAtRight(NoAVL<T> *k3) {
 		k3->direita = rightRotate(k3->getDireita());
 		return leftRotate(k3);
 	}
+
+	int balanceFactor(NoAVL<T>* node) {
+		if(node == nullptr)
+			return 0;
+		return height(node->getEsquerda()) - height(node->getDireita());
+	}
+
 	NoAVL<T>* inserir(const T& dado, NoAVL<T>* arv) {
-		NoAVL<T>* arv_rodada;
 		if(arv == nullptr) {
-			arv = new NoAVL<T>(dado);
+			return new NoAVL<T>(dado);
 		} else {
-			 if (dado < *arv->getDado()) {
+			if(dado < *arv->getDado())
 				arv->esquerda = inserir(dado, arv->getEsquerda());
-				if ((height(arv->getEsquerda()) -
-					 height(arv->getDireita())) > 1) {
-					if (dado < *arv->esquerda->getDado()) {
-						arv_rodada = rightRotate(arv);
-					} else {
-						arv_rodada = doubleRotateAtLeft(arv);
-					}
-					return arv_rodada;
-				} else {
-					arv->altura = std::max(height(arv->getEsquerda()),
-										   height(arv->getDireita())) + 1;
-				}
-			} else {
+			else
 				arv->direita = inserir(dado, arv->getDireita());
-				if ((height(arv->getDireita()) -
-					 height(arv->getEsquerda())) > 1) {
-					if (dado > *arv->direita->getDado()) {
-						arv_rodada = leftRotate(arv);
-					} else {
-						arv_rodada = doubleRotateAtRight(arv);
-					}
-					return arv_rodada;
-				} else {
-					arv->altura = std::max(height(arv->getDireita()),
-										   height(arv->getEsquerda())) + 1;
-				}
-			}
+		}
+
+		updateHeight(arv);
+		int balance = balanceFactor(arv);
+
+		if(balance > 1) {
+			if(dado > *arv->esquerda->getDado())
+				arv->esquerda = leftRotate(arv->getEsquerda());
+			return rightRotate(arv);
+		}
+		if(balance < -1) {
+			if(dado < *arv->direita->getDado())
+				arv->direita = rightRotate(arv->getDireita());
+			return leftRotate(arv);
 		}
 		return arv;
 	}
+
 	NoAVL<T>* remover(NoAVL<T>* arv, const T& dado) {
-		NoAVL<T> *tmp, *filho;
-		if (arv == NULL) {
+		if(arv == nullptr) {
 			return arv;
-		} else {
-			if (dado < *arv->getDado()) {
-				arv->esquerda = remover(arv->getEsquerda(), dado);
-				if (height(arv->getEsquerda()) > height(arv->getDireita())) {
-					if (heightAtLeft(arv->getEsquerda()) >=
-						heightAtRight(arv->getEsquerda())) {
-						arv = rightRotate(arv);
-					} else {
-						arv = doubleRotateAtLeft(arv);
-					}
-				} else if (height(arv->getEsquerda()) < height(arv->getDireita())) {
-					if (heightAtRight(arv->getDireita()) >=
-						heightAtLeft(arv->getDireita())) {
-						arv = leftRotate(arv);
-					} else {
-						arv = doubleRotateAtRight(arv);
-					}
-				}
-
-				arv->altura = std::max(height(arv->getEsquerda()),
-									   height(arv->getDireita())) + 1;
-				return arv;
+		}
+		if(dado < *arv->getDado()) {
+			arv->esquerda = remover(arv->getEsquerda(), dado);
+		}
+		else if(dado > *arv->getDado()) {
+			arv->direita = remover(arv->getDireita(), dado);
+		}
+		else {
+			NoAVL<T>* tmp;
+			if(arv->getEsquerda() != nullptr && arv->getDireita() != nullptr) {
+				tmp = minimo(arv->getDireita());
+				*arv->dado = *tmp->getDado();
+				arv->direita = remover(arv->getDireita(), *arv->getDado());
 			} else {
-				if (dado > *arv->getDado()) {
-					arv->direita = remover(arv->getDireita(), dado);
-				if (height(arv->getEsquerda()) > height(arv->getDireita())) {
-					if (heightAtLeft(arv->getEsquerda()) >=
-						heightAtRight(arv->getEsquerda())) {
-						arv = rightRotate(arv);
-					} else {
-						arv = doubleRotateAtLeft(arv);
-					}
-				} else if (height(arv->getEsquerda()) < height(arv->getDireita())) {
-					if (heightAtRight(arv->getDireita()) >=
-						heightAtLeft(arv->getDireita())) {
-						arv = leftRotate(arv);
-					} else {
-						arv = doubleRotateAtRight(arv);
-					}
-				}
-				arv->altura = std::max(height(arv->getEsquerda()),
-									   height(arv->getDireita())) + 1;
-
-
-					return arv;
+				if(arv->getDireita() != nullptr) {
+					tmp = arv->getDireita();
+					return tmp;
 				} else {
-					if (arv->getDireita() != NULL &&
-												arv->getEsquerda() != NULL) {
-						tmp = minimo(arv->getDireita());
-						*arv->dado = *tmp->getDado();
-						arv->direita = remover(arv->getDireita(),
-						*arv->getDado());
-						arv->altura = std::max(height(arv->getEsquerda()),
-											   height(arv->getDireita())) + 1;
-
-						return arv;
+					if(arv->getEsquerda() != nullptr) {
+						tmp = arv->getEsquerda();
+						return tmp;
 					} else {
-						tmp = arv;
-						if (arv->getDireita() != NULL) {
-							filho = arv->getDireita();
-							return filho;
-						} else {
-							if (arv->getEsquerda() != NULL) {
-								filho = arv->getEsquerda();
-								return filho;
-							} else {
-								delete arv;
-								return NULL;
-							}
-						}
+						delete arv;
+						return nullptr;
 					}
 				}
 			}
 		}
+		if(arv == nullptr)
+			return arv;
+
+		updateHeight(arv);
+		int balance = balanceFactor(arv);
+
+		if(balance > 1) {
+			if(balanceFactor(arv->getEsquerda()) < 0)
+				arv->esquerda = leftRotate(arv->getEsquerda());
+			return rightRotate(arv);
+		}
+		if(balance < -1) {
+			if(balanceFactor(arv->getDireita()) > 0)
+				arv->direita = rightRotate(arv->getDireita());
+			return leftRotate(arv);
+		}
+
+		return arv;
 	}
 };
 

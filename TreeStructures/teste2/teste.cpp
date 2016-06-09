@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include "NoAVL.hpp"
+#include "AVLTree.hpp"
 
 void postorder(NoAVL<int>* p, int indent) {
 	if(p != nullptr) {
