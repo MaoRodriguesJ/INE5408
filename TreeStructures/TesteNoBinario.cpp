@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "NoBinario2.hpp"
+#include "NoBinario.hpp"
 #include <vector>
 
 int main(int argc, char **argv) {

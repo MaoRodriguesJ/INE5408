@@ -106,7 +106,7 @@ class NoBinario {
 	 *
 	 * @return     Retorna árvore para recursão
 	 */
-	NoBinario<T>* inserir(const T& dado, NoBinario<T>* arv) { 
+	NoBinario<T>* inserir(const T& dado, NoBinario<T>* arv) {
 		if(dado < *(arv->getDado())) {
 			if(arv->getEsquerda() == nullptr) {
 				arv->esquerda = new NoBinario<T>(dado);
