@@ -1,5 +1,1 @@
-# INE5408
-Data Structures
-Federal Unversity of Santa Catarina
-
-Mixed English/Portuguese
+Data structures implementations in cpp for INE5408-UFSC lecture.
